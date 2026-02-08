@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Fraud Eye</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .login-box {
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        .step-indicator {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        
+        .btn:hover {
+            transform: scale(1.02);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .status {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status.info {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        #step2 {
+            display: none;
+        }
+        
+        video {
+            width: 100%;
+            border-radius: 15px;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .face-guide {
+            text-align: center;
+            color: #666;
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+        
+        /* Unauthorized Meme Overlay */
+        .meme-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .meme-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            animation: slideIn 0.5s;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .meme-image {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .meme-text {
+            font-size: 2em;
+            font-weight: bold;
+            color: #dc3545;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .meme-close-btn {
+            background: #dc3545;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .meme-close-btn:hover {
+            background: #c82333;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Surveillance Warning Overlay -->
+    <div id="memeOverlay" class="meme-overlay">
+        <div class="meme-content">
+            <!-- Content will be dynamically inserted -->
+        </div>
+    </div>
+    <div class="login-box">
+        <h1>🛡️ Admin Login</h1>
+        
+        <div id="status" class="status"></div>
+        
+        <!-- STEP 1: Username & Password -->
+        <div id="step1">
+            <div class="step-indicator">Step 1: Credentials</div>
+            
+            <div class="form-group">
+                <label>👤 Username</label>
+                <input type="text" id="username" placeholder="Enter username" value="piyush69">
+            </div>
+            
+            <div class="form-group">
+                <label>🔒 Password</label>
+                <input type="password" id="password" placeholder="Enter password">
+            </div>
+            
+            <button class="btn" onclick="verifyCredentials()">Next: Face Recognition →</button>
+        </div>
+        
+        <!-- STEP 2: Face Recognition -->
+        <div id="step2">
+            <div class="step-indicator">Step 2: Face Recognition</div>
+            
+            <video id="webcam" autoplay playsinline></video>
+            
+            <div class="face-guide">
+                📸 Position your face clearly in the camera<br>
+                💡 Good lighting required
+            </div>
+            
+            <button class="btn" id="startCameraBtn" onclick="startCamera()">📷 Start Camera</button>
+            <button class="btn" id="verifyFaceBtn" onclick="verifyFace()" style="display:none;">✅ Verify Face</button>
+            <button class="btn" onclick="goBack()" style="background:#6c757d; margin-top:10px;">← Back</button>
+        </div>
+    </div>
+    
+    <script>
+        let tempToken = null;
+        let stream = null;
+        let video = null;
+        let failedAttempts = 0;  // Track failed attempts
+        
+        // Voice alert function
+        function speakAlert(message, lang = 'hi-IN') {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(message);
+                utterance.lang = lang;
+                utterance.rate = 0.9;
+                utterance.pitch = 1;
+                utterance.volume = 1;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+        
+        function showStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `status ${type}`;
+            status.style.display = 'block';
+        }
+        
+        function hideStatus() {
+            document.getElementById('status').style.display = 'none';
+        }
+        
+        function hideStatus() {
+            document.getElementById('status').style.display = 'none';
+        }
+        
+        async function verifyCredentials() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (!username || !password) {
+                showStatus('❌ Please enter username and password', 'error');
+                return;
+            }
+            
+            showStatus('🔍 Verifying credentials...', 'info');
+            
+            try {
+                const response = await fetch('/api/admin/verify-credentials', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const result = await response.json();
+                
+                if (result.verified) {
+                    tempToken = result.temp_token;
+                    showStatus('✅ Credentials verified!', 'success');
+                    
+                    setTimeout(() => {
+                        document.getElementById('step1').style.display = 'none';
+                        document.getElementById('step2').style.display = 'block';
+                        hideStatus();
+                    }, 1000);
+                } else {
+                    showStatus('❌ ' + result.message, 'error');
+                }
+            } catch (error) {
+                showStatus('❌ Error: ' + error.message, 'error');
+            }
+        }
+        
+        function goBack() {
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step1').style.display = 'block';
+            tempToken = null;
+            
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            
+            document.getElementById('webcam').style.display = 'none';
+            document.getElementById('startCameraBtn').style.display = 'block';
+            document.getElementById('verifyFaceBtn').style.display = 'none';
+            hideStatus();
+        }
+        
+        async function startCamera() {
+            try {
+                showStatus('📸 Starting camera...', 'info');
+                
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        width: { ideal: 640 },
+                        height: { ideal: 480 },
+                        facingMode: 'user'
+                    } 
+                });
+                
+                video = document.getElementById('webcam');
+                video.srcObject = stream;
+                video.style.display = 'block';
+                
+                document.getElementById('startCameraBtn').style.display = 'none';
+                document.getElementById('verifyFaceBtn').style.display = 'block';
+                
+                showStatus('👤 Position your face clearly', 'info');
+            } catch (error) {
+                showStatus('❌ Camera access denied', 'error');
+            }
+        }
+        
+        // Siren sound function
+        function playSiren() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 800;
+            gainNode.gain.value = 0.3;
+            
+            oscillator.start();
+            
+            // Siren effect - alternating frequencies
+            let high = true;
+            const interval = setInterval(() => {
+                oscillator.frequency.value = high ? 1000 : 600;
+                high = !high;
+            }, 200);
+            
+            setTimeout(() => {
+                clearInterval(interval);
+                oscillator.stop();
+            }, 3000);
+        }
+        
+        // Get device info
+        function getDeviceInfo() {
+            return {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                language: navigator.language,
+                screenResolution: `${screen.width}x${screen.height}`,
+                colorDepth: screen.colorDepth,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                cookieEnabled: navigator.cookieEnabled,
+                onLine: navigator.onLine
+            };
+        }
+        
+        async function verifyFace() {
+            if (!tempToken) {
+                showStatus('❌ Please verify credentials first', 'error');
+                return;
+            }
+            
+            showStatus('🔍 Verifying face...', 'info');
+            document.getElementById('verifyFaceBtn').disabled = true;
+            
+            try {
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.95));
+                
+                const formData = new FormData();
+                formData.append('face_image', blob, 'face.jpg');
+                formData.append('temp_token', tempToken);
+                
+                const response = await fetch('/api/admin/verify-face-2step', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.verified) {
+                    showStatus('✅ Face verified! Logging in...', 'success');
+                    speakAlert('You are authorized. Welcome admin.', 'en-US');
+                    
+                    // Reset failed attempts on success
+                    failedAttempts = 0;
+                    
+                    if (stream) {
+                        stream.getTracks().forEach(track => track.stop());
+                    }
+                    
+                    setTimeout(() => {
+                        window.location.href = '/admin';
+                    }, 2000);
+                } else {
+                    failedAttempts++;
+                    
+                    showStatus(`❌ ${result.message}`, 'error');
+                    
+                    // 3rd and 4th attempt - Warning popup + voice
+                    if (failedAttempts === 3 || failedAttempts === 4) {
+                        speakAlert('Warning! Multiple unauthorized attempts detected. You are being monitored.', 'en-US');
+                        showWarningPopup(failedAttempts);
+                    } 
+                    // 5th attempt - Siren + capture with device info
+                    else if (failedAttempts >= 5) {
+                        playSiren();
+                        speakAlert('Security alert. You are under surveillance. Multiple unauthorized access attempts detected.', 'en-US');
+                        await captureUnauthorizedAttemptWithDevice();
+                        showSurveillanceWarning();
+                        
+                        // Disable further attempts
+                        document.getElementById('verifyFaceBtn').disabled = true;
+                        
+                        setTimeout(() => {
+                            window.location.href = '/admin/login';
+                        }, 5000);
+                    } else {
+                        speakAlert('Unauthorized access attempt detected.', 'en-US');
+                    }
+                    
+                    // ALWAYS re-enable button (don't freeze)
+                    if (failedAttempts < 5) {
+                        document.getElementById('verifyFaceBtn').disabled = false;
+                    }
+                }
+            } catch (error) {
+                showStatus('❌ Error: ' + error.message, 'error');
+                document.getElementById('verifyFaceBtn').disabled = false;
+            }
+        }
+        
+        // Warning popup for 3rd and 4th attempts
+        function showWarningPopup(attemptNum) {
+            const overlay = document.getElementById('memeOverlay');
+            const content = overlay.querySelector('.meme-content');
+            
+            content.innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 5em; margin-bottom: 20px; animation: shake 0.5s infinite;">⚠️</div>
+                    <div style="font-size: 2em; font-weight: bold; color: #ff6b6b; margin-bottom: 20px;">
+                        SECURITY WARNING
+                    </div>
+                    <div style="font-size: 1.3em; color: #333; margin-bottom: 30px; line-height: 1.6;">
+                        Multiple unauthorized access attempts detected!
+                    </div>
+                    <div style="background: #fff3cd; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <strong style="color: #856404;">⚡ You are being monitored</strong><br>
+                        <div style="text-align: left; margin-top: 15px; color: #856404;">
+                            ✓ Your IP address is being logged<br>
+                            ✓ Your device info is being tracked<br>
+                            ✓ Admin will be notified<br>
+                            ${attemptNum === 4 ? '✓ <strong>Next attempt will trigger photo capture!</strong>' : ''}
+                        </div>
+                    </div>
+                    <button onclick="closeWarningPopup()" style="background: #dc3545; color: white; padding: 15px 40px; border: none; border-radius: 50px; font-size: 1.2em; cursor: pointer; margin-top: 20px;">
+                        I Understand
+                    </button>
+                </div>
+                <style>
+                    @keyframes shake {
+                        0%, 100% { transform: rotate(0deg); }
+                        25% { transform: rotate(-10deg); }
+                        75% { transform: rotate(10deg); }
+                    }
+                </style>
+            `;
+            
+            overlay.style.display = 'flex';
+        }
+        
+        function closeWarningPopup() {
+            document.getElementById('memeOverlay').style.display = 'none';
+        }
+        
+        // Show surveillance warning (5th attempt)
+        function showSurveillanceWarning() {
+            const overlay = document.getElementById('memeOverlay');
+            const content = overlay.querySelector('.meme-content');
+            
+            content.innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 6em; margin-bottom: 20px; animation: pulse 1s infinite; color: #dc3545;">🚨</div>
+                    <div style="font-size: 3em; font-weight: bold; color: #dc3545; margin-bottom: 20px; animation: blink 1s infinite;">
+                        SECURITY ALERT
+                    </div>
+                    <div style="font-size: 1.8em; color: #333; margin-bottom: 30px; line-height: 1.6; font-weight: bold;">
+                        ⚠️ YOU ARE UNDER SURVEILLANCE ⚠️<br>
+                        <span style="font-size: 0.7em; color: #666; font-weight: normal;">
+                            5 unauthorized access attempts detected<br>
+                            Your photo and device info have been captured
+                        </span>
+                    </div>
+                    <div style="background: #fff3cd; padding: 25px; border-radius: 15px; margin: 20px 0; border: 3px solid #ffc107;">
+                        <strong style="color: #856404; font-size: 1.2em;">⚡ Security Measures Activated:</strong><br>
+                        <div style="text-align: left; margin-top: 15px; color: #856404; font-size: 1.1em; line-height: 2;">
+                            ✓ Photo captured and saved<br>
+                            ✓ Device information logged<br>
+                            ✓ IP address recorded<br>
+                            ✓ Timestamp logged<br>
+                            ✓ Admin notified immediately<br>
+                            ✓ Access permanently blocked
+                        </div>
+                    </div>
+                    <p style="color: #dc3545; font-size: 1.2em; margin-top: 20px; font-weight: bold;">
+                        🔒 Redirecting in 5 seconds...
+                    </p>
+                </div>
+                <style>
+                    @keyframes pulse {
+                        0%, 100% { transform: scale(1); }
+                        50% { transform: scale(1.1); }
+                    }
+                    @keyframes blink {
+                        0%, 50%, 100% { opacity: 1; }
+                        25%, 75% { opacity: 0.5; }
+                    }
+                </style>
+            `;
+            
+            overlay.style.display = 'flex';
+        }
+        
+        // Capture with device info
+        async function captureUnauthorizedAttemptWithDevice() {
+            try {
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.95));
+                
+                const formData = new FormData();
+                formData.append('unauthorized_face', blob, 'unauthorized.jpg');
+                formData.append('timestamp', new Date().toISOString());
+                formData.append('device_info', JSON.stringify(getDeviceInfo()));
+                
+                await fetch('/api/admin/log-unauthorized', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                console.log('Unauthorized attempt logged with device info');
+            } catch (error) {
+                console.error('Failed to log unauthorized attempt:', error);
+            }
+        }
+    </script>
+</body>
+</html>

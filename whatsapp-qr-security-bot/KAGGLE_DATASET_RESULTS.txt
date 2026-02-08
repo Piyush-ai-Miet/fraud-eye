@@ -1,0 +1,121 @@
+============================================================
+KAGGLE MALICIOUS URLs DATASET - TRAINING RESULTS
+============================================================
+
+DATASET SOURCE:
+- Kaggle: sid321axn/malicious-urls-dataset
+- Total URLs: 651,191
+- Download Size: 16.9 MB (44.6 MB uncompressed)
+
+DATASET DISTRIBUTION:
+- Benign: 428,103 URLs (65.7%)
+- Defacement: 96,457 URLs (14.8%)
+- Phishing: 94,111 URLs (14.5%)
+- Malware: 32,520 URLs (5.0%)
+
+TRAINING SET (BALANCED):
+- Total: 4,000 URLs
+- Benign: 1,000 URLs
+- Phishing: 1,000 URLs
+- Malware: 1,000 URLs
+- Defacement: 1,000 URLs
+
+============================================================
+MODEL PERFORMANCE
+============================================================
+
+Model: Random Forest (200 trees, max_depth=15)
+Training Set: 3,200 URLs (80%)
+Test Set: 800 URLs (20%)
+
+ACCURACY: 93.50% ✅
+
+CLASSIFICATION REPORT:
+                precision    recall  f1-score   support
+      Benign       0.90      0.83      0.87       203
+   Malicious       0.94      0.97      0.96       597
+    accuracy                           0.94       800
+
+CONFUSION MATRIX:
+- True Negatives (Benign correctly identified): 169
+- False Positives (Benign marked as Malicious): 34
+- False Negatives (Malicious marked as Benign): 18
+- True Positives (Malicious correctly identified): 579
+
+============================================================
+TOP 10 IMPORTANT FEATURES
+============================================================
+
+1. slash_count: 0.1987
+2. has_http: 0.1933
+3. domain_length: 0.1355
+4. dot_count: 0.1322
+5. url_length: 0.1158
+6. has_https: 0.0732
+7. dash_count: 0.0580
+8. underscore_count: 0.0267
+9. equal_count: 0.0180
+10. ampersand_count: 0.0113
+
+============================================================
+SAMPLE PREDICTIONS
+============================================================
+
+1. br-icloud.com.br (Phishing from dataset)
+   Prediction: MALICIOUS (99.2% confidence) ✅
+
+2. signin.eby.de.zukruygxctzmmqi.civpro.co.za (Phishing)
+   Prediction: MALICIOUS (92.4% confidence) ✅
+
+3. http://192.168.1.1/verify-otp (Test URL)
+   Prediction: MALICIOUS (98.9% confidence) ✅
+
+4. http://fake-sbi.tk/urgent-login (Test URL)
+   Prediction: MALICIOUS (94.1% confidence) ✅
+
+============================================================
+COMPARISON: ORIGINAL vs KAGGLE MODEL
+============================================================
+
+ORIGINAL MODEL (30 URLs):
+- Training Set: 21 URLs
+- Test Set: 9 URLs
+- Accuracy: 100%
+- Dataset: Custom Indian scam patterns
+
+KAGGLE MODEL (4,000 URLs):
+- Training Set: 3,200 URLs
+- Test Set: 800 URLs
+- Accuracy: 93.5%
+- Dataset: Real-world phishing, malware, defacement URLs
+
+============================================================
+FILES CREATED
+============================================================
+
+✅ data/kaggle_malicious_urls.csv (651,191 URLs - 44.6 MB)
+✅ data/kaggle_balanced_urls.csv (4,000 URLs - balanced)
+✅ models/url_classifier_kaggle.pkl (Trained model)
+✅ models/feature_names_kaggle.pkl (Feature names)
+
+============================================================
+INTEGRATION STATUS
+============================================================
+
+✅ Kaggle model trained successfully
+✅ Model saved and ready to use
+✅ ML classifier updated to use Kaggle model
+✅ Fallback to original model if Kaggle model not available
+✅ 16 features extracted (added equal_count, underscore_count)
+
+============================================================
+NEXT STEPS
+============================================================
+
+1. Test Kaggle model with web interface
+2. Compare predictions with original model
+3. Fine-tune model if needed
+4. Add more features for better accuracy
+5. Consider ensemble model (combine both models)
+
+============================================================

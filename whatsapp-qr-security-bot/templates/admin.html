@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Fraud Eye</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .india-flag {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 35px;
+            border: 2px solid white;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+        
+        .flag-stripe {
+            height: 33.33%;
+        }
+        
+        .saffron { background: #FF9933; }
+        .white { background: white; position: relative; }
+        .green { background: #138808; }
+        
+        .ashoka-chakra {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            border: 1.5px solid #000080;
+            border-radius: 50%;
+        }
+        
+        .chakra-spoke {
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            background: #000080;
+            left: 50%;
+            transform-origin: center;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #667eea;
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .history-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .history-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+        
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .history-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        .history-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .history-table tr:hover {
+            background: #f8f9ff;
+        }
+        
+        .risk-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        .risk-high { background: #dc3545; color: white; }
+        .risk-medium { background: #ffa500; color: white; }
+        .risk-low { background: #28a745; color: white; }
+        
+        .type-badge {
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        
+        .type-qr { background: #667eea; color: white; }
+        .type-url { background: #764ba2; color: white; }
+        .type-voice { background: #ff6b6b; color: white; }
+        
+        .refresh-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        
+        .refresh-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Unauthorized Attempts Grid */
+        .unauthorized-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .unauthorized-card {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+            border: 2px solid #dc3545;
+            border-radius: 15px;
+            padding: 18px;
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.15);
+            transition: all 0.3s;
+        }
+        
+        .unauthorized-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(220, 53, 69, 0.3);
+        }
+        
+        .unauthorized-photo {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #dc3545;
+        }
+        
+        .unauthorized-info {
+            font-size: 0.85em;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .unauthorized-info strong {
+            color: #dc3545;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .unauthorized-detail {
+            margin: 5px 0;
+            padding: 4px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .unauthorized-detail:last-child {
+            border-bottom: none;
+        }
+        
+        .unauthorized-timestamp {
+            background: #dc3545;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.75em;
+            display: inline-block;
+            margin-top: 8px;
+        }
+        
+        .severity-high {
+            background: #dc3545;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        .status-blocked {
+            background: #6c757d;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        .no-attempts {
+            text-align: center;
+            padding: 30px;
+            color: #28a745;
+            font-size: 1.1em;
+            background: #d4edda;
+            border-radius: 10px;
+            border: 2px solid #28a745;
+        }
+    </style>
+</head>
+<body>
+    <!-- India Flag -->
+    <div class="india-flag">
+        <div class="flag-stripe saffron"></div>
+        <div class="flag-stripe white">
+            <div class="ashoka-chakra">
+                <div class="chakra-spoke" style="transform: rotate(0deg);"></div>
+                <div class="chakra-spoke" style="transform: rotate(15deg);"></div>
+                <div class="chakra-spoke" style="transform: rotate(30deg);"></div>
+                <div class="chakra-spoke" style="transform: rotate(45deg);"></div>
+                <div class="chakra-spoke" style="transform: rotate(60deg);"></div>
+                <div class="chakra-spoke" style="transform: rotate(75deg);"></div>
+                <div class="chakra-spoke" style="transform: rotate(90deg);"></div>
+                <div class="chakra-spoke" style="transform: rotate(105deg);"></div>
+            </div>
+        </div>
+        <div class="flag-stripe green"></div>
+    </div>
+    
+    <div class="header">
+        <h1>🛡️ Admin Dashboard</h1>
+        <p style="font-size: 1.2em;">Fraud Eye - Scan History & Statistics</p>
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+            <button class="refresh-btn" onclick="showReregisterModal()" style="background: #28a745;">
+                📸 Re-register Face
+            </button>
+            <button class="refresh-btn" onclick="logout()" style="background: #dc3545;">
+                🚪 Logout
+            </button>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Scans</div>
+                <div class="stat-number" id="totalScans">0</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-label">Safe</div>
+                <div class="stat-number" style="color: #28a745;" id="safeScans">0</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-label">Malicious</div>
+                <div class="stat-number" style="color: #dc3545;" id="maliciousScans">0</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-label">Suspicious</div>
+                <div class="stat-number" style="color: #ffa500;" id="suspiciousScans">0</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-label">QR Scans</div>
+                <div class="stat-number" style="color: #667eea;" id="qrScans">0</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-label">URL Scans</div>
+                <div class="stat-number" style="color: #764ba2;" id="urlScans">0</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-label">Voice Scans</div>
+                <div class="stat-number" style="color: #ff6b6b;" id="voiceScans">0</div>
+            </div>
+        </div>
+        
+        <!-- Scan History -->
+        <div class="history-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0;">📋 Recent Scan History</h2>
+                <div style="display: flex; gap: 10px;">
+                    <button class="refresh-btn" onclick="loadData()">🔄 Refresh</button>
+                    <button onclick="deleteSelectedLogs()" style="background: #ff6b6b; color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: 600; box-shadow: 0 4px 15px rgba(255,107,107,0.3);">
+                        ❌ Delete Selected
+                    </button>
+                    <button onclick="clearAllLogs()" style="background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: 600; box-shadow: 0 4px 15px rgba(220,53,69,0.3);">
+                        🗑️ Clear All Logs
+                    </button>
+                </div>
+            </div>
+            
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;"><input type="checkbox" id="selectAllLogs" onclick="toggleAllLogs(this)" style="width: 18px; height: 18px; cursor: pointer;"></th>
+                        <th>Time</th>
+                        <th>Type</th>
+                        <th>Content</th>
+                        <th>Risk</th>
+                        <th>Warnings</th>
+                        <th>User IP</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTable">
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 30px;">Loading...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Unauthorized Attempts Section -->
+        <div class="history-section" style="margin-top: 30px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <div>
+                    <h2 style="color: #dc3545; font-size: 1.5em; margin: 0;">🚨 Unauthorized Access Attempts</h2>
+                    <p style="color: #666; margin: 5px 0 0 0; font-size: 0.9em;">Failed login attempts (5+ attempts) with captured photos</p>
+                </div>
+                <button onclick="deleteSelectedAttempts()" style="background: #ff6b6b; color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: 600; box-shadow: 0 4px 15px rgba(255,107,107,0.3);">
+                    ❌ Delete Selected
+                </button>
+            </div>
+            
+            <div id="unauthorizedGrid" class="unauthorized-grid">
+                <!-- Unauthorized attempts will be loaded here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Re-register Face Modal -->
+    <div id="reregisterModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; align-items: center; justify-content: center;">
+        <div style="background: white; border-radius: 20px; padding: 40px; max-width: 500px; width: 90%;">
+            <h2 style="color: #333; margin-bottom: 20px;">📸 Re-register Face</h2>
+            <p style="color: #666; margin-bottom: 20px;">This will replace your current face data. You'll need to login again after re-registration.</p>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button onclick="confirmReregister()" style="background: #28a745; color: white; border: none; padding: 12px 30px; border-radius: 10px; cursor: pointer; font-weight: 600;">
+                    ✅ Confirm & Logout
+                </button>
+                <button onclick="closeReregisterModal()" style="background: #6c757d; color: white; border: none; padding: 12px 30px; border-radius: 10px; cursor: pointer; font-weight: 600;">
+                    ❌ Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        async function loadData() {
+            try {
+                // Load statistics
+                const statsResponse = await fetch('/api/admin/stats');
+                const stats = await statsResponse.json();
+                
+                document.getElementById('totalScans').textContent = stats.total_scans || 0;
+                document.getElementById('safeScans').textContent = stats.safe_scans || 0;
+                document.getElementById('maliciousScans').textContent = stats.malicious_scans || 0;
+                document.getElementById('suspiciousScans').textContent = stats.suspicious_scans || 0;
+                document.getElementById('qrScans').textContent = stats.qr_scans || 0;
+                document.getElementById('urlScans').textContent = stats.url_scans || 0;
+                document.getElementById('voiceScans').textContent = stats.voice_scans || 0;
+                
+                // Load history
+                const historyResponse = await fetch('/api/admin/history');
+                const history = await historyResponse.json();
+                
+                const tbody = document.getElementById('historyTable');
+                tbody.innerHTML = '';
+                
+                if (history.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px;">No scans yet</td></tr>';
+                    return;
+                }
+                
+                history.forEach((scan, index) => {
+                    const row = document.createElement('tr');
+                    
+                    const riskClass = scan.risk === 'HIGH' ? 'risk-high' : 
+                                     scan.risk === 'MEDIUM' ? 'risk-medium' : 'risk-low';
+                    
+                    const typeClass = scan.type === 'qr' ? 'type-qr' : 
+                                     scan.type === 'url' ? 'type-url' : 'type-voice';
+                    
+                    row.innerHTML = `
+                        <td><input type="checkbox" class="log-checkbox" value="${index}" style="width: 18px; height: 18px; cursor: pointer;"></td>
+                        <td>${scan.timestamp}</td>
+                        <td><span class="type-badge ${typeClass}">${scan.type.toUpperCase()}</span></td>
+                        <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">${scan.content}</td>
+                        <td><span class="risk-badge ${riskClass}">${scan.risk}</span></td>
+                        <td>${scan.warnings_count}</td>
+                        <td>${scan.user_ip}</td>
+                    `;
+                    
+                    tbody.appendChild(row);
+                });
+                
+                // Load unauthorized attempts
+                await loadUnauthorizedAttempts();
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('historyTable').innerHTML = 
+                    '<tr><td colspan="6" style="text-align: center; padding: 30px; color: red;">Error loading data</td></tr>';
+            }
+        }
+        
+        // Load unauthorized attempts
+        async function loadUnauthorizedAttempts() {
+            try {
+                const response = await fetch('/api/admin/unauthorized-attempts');
+                const data = await response.json();
+                
+                const grid = document.getElementById('unauthorizedGrid');
+                grid.innerHTML = '';
+                
+                if (!data.attempts || data.attempts.length === 0) {
+                    grid.innerHTML = '<div class="no-attempts">✅ No unauthorized attempts detected</div>';
+                    return;
+                }
+                
+                data.attempts.forEach(attempt => {
+                    const card = document.createElement('div');
+                    card.className = 'unauthorized-card';
+                    card.style.position = 'relative';
+                    
+                    const timestamp = new Date(attempt.timestamp).toLocaleString('en-IN', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit'
+                    });
+                    
+                    // Build clean details HTML (no device info)
+                    const status = attempt.status || 'BLOCKED';
+                    const severity = attempt.severity || 'HIGH';
+                    const ipAddress = attempt.ip_address || 'Unknown';
+                    const photoFilename = attempt.photo;
+                    
+                    card.innerHTML = `
+                        <input type="checkbox" class="attempt-checkbox" value="${photoFilename}" 
+                               style="position: absolute; top: 10px; left: 10px; width: 20px; height: 20px; cursor: pointer; z-index: 10;">
+                        <img src="/data/unauthorized_attempts/${photoFilename}" 
+                             alt="Unauthorized" 
+                             class="unauthorized-photo"
+                             onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22250%22 height=%22150%22%3E%3Crect width=%22250%22 height=%22150%22 fill=%22%23f0f0f0%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2214%22%3ENo Photo%3C/text%3E%3C/svg%3E'">
+                        <div class="unauthorized-info">
+                            <strong>⚠️ Unauthorized Access</strong>
+                            <div class="unauthorized-detail">
+                                📅 ${timestamp}
+                            </div>
+                            <div class="unauthorized-detail">
+                                🌐 IP: ${ipAddress}
+                            </div>
+                            <div class="unauthorized-detail">
+                                <span class="status-blocked">⛔ ${status}</span>
+                                <span class="severity-high">🚨 ${severity}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    grid.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error loading unauthorized attempts:', error);
+                document.getElementById('unauthorizedGrid').innerHTML = 
+                    '<div style="text-align: center; padding: 20px; color: red;">Error loading unauthorized attempts</div>';
+            }
+        }
+        
+        // Load data on page load
+        loadData();
+        
+        // Auto-refresh every 30 seconds
+        setInterval(loadData, 30000);
+        
+        // Logout function
+        async function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                try {
+                    await fetch('/api/admin/logout', { method: 'POST' });
+                    window.location.href = '/admin/login';
+                } catch (error) {
+                    console.error('Logout error:', error);
+                    window.location.href = '/admin/login';
+                }
+            }
+        }
+        
+        // Toggle all log checkboxes
+        function toggleAllLogs(checkbox) {
+            const checkboxes = document.querySelectorAll('.log-checkbox');
+            checkboxes.forEach(cb => cb.checked = checkbox.checked);
+        }
+        
+        // Delete selected scan logs
+        async function deleteSelectedLogs() {
+            const checkboxes = document.querySelectorAll('.log-checkbox:checked');
+            
+            if (checkboxes.length === 0) {
+                alert('⚠️ Please select at least one log to delete');
+                return;
+            }
+            
+            const indices = Array.from(checkboxes).map(cb => parseInt(cb.value));
+            
+            if (!confirm(`⚠️ Are you sure you want to delete ${indices.length} selected log(s)?\n\nThis action cannot be undone!`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/admin/delete-logs', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ indices: indices })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert(`✅ Successfully deleted ${result.deleted} log(s)!`);
+                    document.getElementById('selectAllLogs').checked = false;
+                    loadData(); // Reload data
+                } else {
+                    alert('❌ Error: ' + (result.error || 'Failed to delete logs'));
+                }
+            } catch (error) {
+                console.error('Error deleting logs:', error);
+                alert('❌ Error deleting logs. Please try again.');
+            }
+        }
+        
+        // Clear all scan logs
+        async function clearAllLogs() {
+            if (!confirm('⚠️ Are you sure you want to delete ALL scan history logs?\n\nThis action cannot be undone!')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/admin/clear-logs', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert('✅ All scan logs cleared successfully!');
+                    loadData(); // Reload data
+                } else {
+                    alert('❌ Error: ' + (result.error || 'Failed to clear logs'));
+                }
+            } catch (error) {
+                console.error('Error clearing logs:', error);
+                alert('❌ Error clearing logs. Please try again.');
+            }
+        }
+        
+        // Delete selected unauthorized attempts
+        async function deleteSelectedAttempts() {
+            const checkboxes = document.querySelectorAll('.attempt-checkbox:checked');
+            
+            if (checkboxes.length === 0) {
+                alert('⚠️ Please select at least one attempt to delete');
+                return;
+            }
+            
+            const filenames = Array.from(checkboxes).map(cb => cb.value);
+            
+            if (!confirm(`⚠️ Are you sure you want to delete ${filenames.length} unauthorized attempt(s)?\n\nThis action cannot be undone!`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/admin/delete-attempts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ filenames: filenames })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert(`✅ Successfully deleted ${result.deleted} attempt(s)!`);
+                    loadData(); // Reload data
+                } else {
+                    alert('❌ Error: ' + (result.error || 'Failed to delete attempts'));
+                }
+            } catch (error) {
+                console.error('Error deleting attempts:', error);
+                alert('❌ Error deleting attempts. Please try again.');
+            }
+        }
+        
+        // Re-register modal functions
+        function showReregisterModal() {
+            document.getElementById('reregisterModal').style.display = 'flex';
+        }
+        
+        function closeReregisterModal() {
+            document.getElementById('reregisterModal').style.display = 'none';
+        }
+        
+        async function confirmReregister() {
+            try {
+                // Clear face data on server
+                const response = await fetch('/api/admin/clear-face-data', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                if (response.ok) {
+                    alert('✅ Face data cleared! You will be logged out now. Please register again.');
+                    // Logout and redirect to /admin
+                    await fetch('/api/admin/logout', { method: 'POST' });
+                    window.location.href = '/admin';
+                } else {
+                    alert('❌ Error clearing face data');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Error clearing face data');
+            }
+        }
+    </script>
+</body>
+</html>

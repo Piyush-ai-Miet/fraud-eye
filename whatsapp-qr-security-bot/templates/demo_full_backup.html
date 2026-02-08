@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Eye - साइबर सुरक्षा</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.3em;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Top Section - QR & URL side by side */
+        .top-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        /* Middle Section - Voice Detection (full width) */
+        .middle-section {
+            margin-bottom: 25px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+        
+        .card h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.9em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card h2 .icon {
+            font-size: 1.2em;
+        }
+        
+        .card-description {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1.05em;
+            line-height: 1.5;
+        }
+        
+        .url-input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1.05em;
+            margin-bottom: 15px;
+            transition: border-color 0.3s;
+        }
+        
+        .url-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.15em;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 35px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+            background: #f8f9ff;
+        }
+        
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: #f0f2ff;
+            transform: scale(1.02);
+        }
+        
+        .upload-area .icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .upload-area .text {
+            font-size: 1.1em;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .upload-area .subtext {
+            color: #999;
+            font-size: 0.9em;
+            margin-top: 8px;
+        }
+        
+        .results {
+            margin-top: 20px;
+            padding: 25px;
+            border-radius: 15px;
+            display: none;
+            animation: slideIn 0.5s;
+            border-left: 5px solid;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .results.safe {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-left-color: #28a745;
+        }
+        
+        .results.warning {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-left-color: #ffc107;
+        }
+        
+        .results.danger {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            border-left-color: #dc3545;
+        }
+        
+        .risk-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .risk-low {
+            background: #28a745;
+            color: white;
+        }
+        
+        .risk-medium {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .risk-high {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 25px;
+            display: none;
+        }
+        
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #667eea;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .examples {
+            margin: 15px 0;
+            padding: 18px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .examples strong {
+            color: #333;
+            font-size: 1.05em;
+        }
+        
+        .example-link {
+            display: block;
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: all 0.2s;
+            border: 1px solid #e9ecef;
+        }
+        
+        .example-link:hover {
+            background: #667eea;
+            color: white;
+            transform: translateX(5px);
+            border-color: #667eea;
+        }
+        
+        .instructions {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .instructions strong {
+            color: #1976d2;
+            font-size: 1.05em;
+        }
+        
+        .instructions-content {
+            color: #555;
+            font-size: 0.95em;
+            margin-top: 10px;
+            line-height: 1.8;
+        }
+        
+        @media (max-width: 1024px) {
+            .top-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2.5em;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🛡️ Fraud Eye</h1>
+        <p>साइबर सुरक्षा - गाँव के लिए</p>
+    </div>
+    
+    <div class="container">
+        <div class="cards">
+            <!-- QR Code Scanner Card -->
+            <div class="card">
+                <h2>📱 QR Code Scanner</h2>
+                <p style="color: #666; margin-bottom: 15px;">
+                    QR code ki photo upload karein - safe hai ya scam?
+                </p>
+                
+                <!-- Usage Instructions -->
+                <div style="background: #e3f2fd; padding: 12px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #2196f3;">
+                    <strong style="color: #1976d2;">📝 Kaise Use Karein:</strong>
+                    <div style="color: #555; font-size: 0.9em; margin-top: 8px; line-height: 1.6;">
+                        1️⃣ Phone se QR code ki photo lo<br>
+                        2️⃣ Neeche upload button par click karo<br>
+                        3️⃣ Photo select karo<br>
+                        4️⃣ Result dekho - Safe hai ya Scam
+                    </div>
+                </div>
+                
+                <div class="upload-area" onclick="document.getElementById('qrInput').click()">
+                    <p style="font-size: 2em; margin-bottom: 10px;">📸</p>
+                    <p>QR code image yahan click karke upload karein</p>
+                    <p style="color: #999; font-size: 0.9em; margin-top: 10px;">
+                        Supported: .jpg, .png, .jpeg
+                    </p>
+                </div>
+                <input type="file" 
+                       id="qrInput" 
+                       accept="image/*" 
+                       style="display: none;"
+                       onchange="scanQRCode()">
+                
+                <div class="loading" id="qrLoading">
+                    <div class="spinner"></div>
+                    <p>QR code scan ho raha hai...</p>
+                </div>
+                
+                <!-- Decoded URL Display -->
+                <div id="decodedUrlBox" style="display: none; margin-top: 15px; padding: 15px; background: #e8f5e9; border-left: 4px solid #28a745; border-radius: 5px;">
+                    <strong style="color: #155724;">📋 Decoded URL:</strong>
+                    <p id="decodedUrlText" style="color: #155724; margin-top: 8px; word-break: break-all; font-family: monospace; font-size: 0.9em;"></p>
+                </div>
+                
+                <div class="results" id="qrResults"></div>
+            </div>
+            
+            <!-- URL Checker Card -->
+            <div class="card">
+                <h2>🔗 URL Safety Checker</h2>
+                <p style="color: #666; margin-bottom: 15px;">
+                    QR code mein koi link hai? Yahan paste karke check karein
+                </p>
+                
+                <!-- Usage Instructions -->
+                <div style="background: #fff3e0; padding: 12px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #ff9800;">
+                    <strong style="color: #e65100;">📝 Kaise Use Karein:</strong>
+                    <div style="color: #555; font-size: 0.9em; margin-top: 8px; line-height: 1.6;">
+                        1️⃣ Suspicious link ko copy karo<br>
+                        2️⃣ Neeche box mein paste karo<br>
+                        3️⃣ "Check Karo" button dabao<br>
+                        4️⃣ Result dekho - Safe hai ya Dangerous
+                    </div>
+                </div>
+                
+                <input type="text" 
+                       class="url-input" 
+                       id="urlInput" 
+                       placeholder="https://example.com">
+                
+                <button class="btn" onclick="checkURL()">
+                    🔍 Check Karo
+                </button>
+                
+                <div class="examples">
+                    <strong>📝 Test Examples:</strong>
+                    <div class="example-link" onclick="testURL('https://google.com')">
+                        ✅ Safe: google.com
+                    </div>
+                    <div class="example-link" onclick="testURL('http://suspicious-site.tk')">
+                        🚫 Suspicious: Free domain
+                    </div>
+                </div>
+                
+                <div class="loading" id="urlLoading">
+                    <div class="spinner"></div>
+                    <p>जांच हो रही है...</p>
+                </div>
+                
+                <div class="results" id="urlResults"></div>
+            </div>
+            
+            <!-- Audio Checker Card -->
+            <div class="card">
+                <h2>🎤 Voice Fraud Detector</h2>
+                <p style="color: #666; margin-bottom: 15px;">
+                    Suspicious voice message? Upload karke check karein
+                </p>
+                
+                <!-- Usage Instructions -->
+                <div style="background: #f3e5f5; padding: 12px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #9c27b0;">
+                    <strong style="color: #6a1b9a;">📝 Kaise Use Karein:</strong>
+                    <div style="color: #555; font-size: 0.9em; margin-top: 8px; line-height: 1.6;">
+                        1️⃣ Suspicious audio file select karo<br>
+                        2️⃣ Neeche upload button par click karo<br>
+                        3️⃣ Audio file choose karo<br>
+                        4️⃣ Result dekho - Real hai ya Fake
+                    </div>
+                </div>
+                
+                <div class="upload-area" onclick="document.getElementById('audioInput').click()">
+                    <p style="font-size: 2em; margin-bottom: 10px;">🔊</p>
+                    <p>Audio file yahan click karke upload karein</p>
+                    <p style="color: #999; font-size: 0.9em; margin-top: 10px;">
+                        Supported: .wav, .mp3, .ogg, .m4a
+                    </p>
+                </div>
+                <input type="file" 
+                       id="audioInput" 
+                       accept="audio/*" 
+                       style="display: none;"
+                       onchange="analyzeAudio()">
+                
+                <div class="examples">
+                    <strong>💡 Kya check hota hai:</strong>
+                    <div style="padding: 8px; margin: 5px 0; background: white; border-radius: 5px; font-size: 0.9em;">
+                        • Audio quality (recorded/manipulated)
+                    </div>
+                    <div style="padding: 8px; margin: 5px 0; background: white; border-radius: 5px; font-size: 0.9em;">
+                        • File size patterns
+                    </div>
+                    <div style="padding: 8px; margin: 5px 0; background: white; border-radius: 5px; font-size: 0.9em;">
+                        • Suspicious characteristics
+                    </div>
+                </div>
+                
+                <div class="loading" id="audioLoading">
+                    <div class="spinner"></div>
+                    <p>Audio analyze ho raha hai...</p>
+                </div>
+                
+                <div class="results" id="audioResults"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <script>
+        // Voice Alert Function using Web Speech API
+        function speakAlert(message) {
+            if ('speechSynthesis' in window) {
+                // Cancel any ongoing speech
+                window.speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(message);
+                utterance.lang = 'hi-IN'; // Hindi language
+                utterance.rate = 0.9; // Slightly slower for clarity
+                utterance.pitch = 1.0;
+                utterance.volume = 1.0;
+                
+                // Try to use Hindi voice if available
+                const voices = window.speechSynthesis.getVoices();
+                const hindiVoice = voices.find(voice => voice.lang.startsWith('hi'));
+                if (hindiVoice) {
+                    utterance.voice = hindiVoice;
+                }
+                
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+        
+        // Load voices when they become available
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = function() {
+                window.speechSynthesis.getVoices();
+            };
+        }
+        
+        async function scanQRCode() {
+            const fileInput = document.getElementById('qrInput');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                return;
+            }
+            
+            showLoading('qr');
+            
+            // Hide previous decoded URL
+            document.getElementById('decodedUrlBox').style.display = 'none';
+            
+            try {
+                // Scan QR code using JavaScript (frontend)
+                const qrUrl = await scanQRWithJS(file);
+                
+                if (!qrUrl) {
+                    hideLoading('qr');
+                    showError('qr', '❌ QR code nahi mila. Clear photo upload karo.');
+                    return;
+                }
+                
+                // Show decoded URL
+                document.getElementById('decodedUrlText').textContent = qrUrl;
+                document.getElementById('decodedUrlBox').style.display = 'block';
+                
+                // Now check the URL with backend
+                const response = await fetch('/api/scan-qr-url', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ url: qrUrl })
+                });
+                
+                const data = await response.json();
+                hideLoading('qr');
+                
+                if (data.error) {
+                    showError('qr', data.error);
+                } else {
+                    displayQRResults(data);
+                }
+            } catch (error) {
+                hideLoading('qr');
+                showError('qr', 'Error: ' + error.message);
+            }
+        }
+        
+        async function scanQRWithJS(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        ctx.drawImage(img, 0, 0);
+                        
+                        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                        const code = jsQR(imageData.data, imageData.width, imageData.height);
+                        
+                        if (code) {
+                            console.log('[JS QR] Detected:', code.data);
+                            resolve(code.data);
+                        } else {
+                            console.log('[JS QR] Not detected');
+                            resolve(null);
+                        }
+                    };
+                    img.onerror = () => resolve(null);
+                    img.src = e.target.result;
+                };
+                
+                reader.onerror = () => resolve(null);
+                reader.readAsDataURL(file);
+            });
+        }
+        
+        function displayQRResults(data) {
+            const resultsDiv = document.getElementById('qrResults');
+            let className = data.is_safe ? 'safe' : 'danger';
+            if (data.risk === 'MEDIUM') className = 'warning';
+            
+            // Voice alert for scam detection
+            if (!data.is_safe) {
+                if (data.is_payment_request) {
+                    // Detailed payment request alert
+                    let alertMsg = 'ध्यान रहे! यह पेमेंट रिक्वेस्ट है। ';
+                    if (data.payment_amount) {
+                        alertMsg += `यह आपसे ${data.payment_amount} रुपये मांग रहा है। `;
+                    } else {
+                        alertMsg += 'यह आपसे पैसे मांग रहा है। ';
+                    }
+                    alertMsg += 'अगर आप accept करेंगे तो पैसे आपके account से जायेंगे। मत करो!';
+                    speakAlert(alertMsg);
+                } else {
+                    speakAlert('सावधान! यह स्कैम लग रहा है। इस लिंक पर क्लिक मत करें।');
+                }
+            } else {
+                speakAlert('यह लिंक सुरक्षित है।');
+            }
+            
+            let html = `
+                <div style="font-size: 1.3em; font-weight: bold; margin-bottom: 15px;">
+                    ${data.message_hi}
+                </div>
+                <p><strong>🔍 Link:</strong> ${data.content.substring(0, 50)}...</p>
+                <div class="risk-badge risk-${data.risk.toLowerCase()}">${data.risk} RISK</div>
+            `;
+            
+            // CRITICAL: Show payment request warning prominently
+            if (data.is_payment_request) {
+                html += `
+                    <div style="margin-top: 20px; padding: 20px; background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); border: 3px solid #a71d2a; border-radius: 10px; box-shadow: 0 4px 15px rgba(220,53,69,0.5);">
+                        <div style="font-size: 1.5em; font-weight: bold; color: white; margin-bottom: 10px;">
+                            🚨 PAYMENT REQUEST DETECTED!
+                        </div>
+                        <div style="color: white; font-size: 1.1em; line-height: 1.6;">
+                            ${data.payment_amount ? 
+                                `<strong>Amount: ₹${data.payment_amount}</strong><br>` : 
+                                '<strong>Amount: Not specified</strong><br>'
+                            }
+                            <br>
+                            ⚠️ <strong>DHYAN RAHE:</strong><br>
+                            • Yeh QR code AAPSE PAISE MAANG RAHA HAI<br>
+                            • Agar aap scan karke pay karenge to paise JAYENGE<br>
+                            • Legitimate businesses kabhi payment request QR nahi bhejte<br>
+                            • Yeh SCAM ho sakta hai!
+                        </div>
+                    </div>
+                `;
+            } else if (data.payment_direction === 'RECEIVE') {
+                html += `
+                    <div style="margin-top: 15px; padding: 15px; background: rgba(40,167,69,0.2); border-left: 4px solid #28a745; border-radius: 5px;">
+                        <strong style="color: #155724;">💰 Payment Type:</strong><br>
+                        <span style="color: #155724; font-size: 1.1em;">✅ Normal Receive QR - Safe for collecting payments</span>
+                    </div>
+                `;
+            }
+            
+            if (data.warnings && data.warnings.length > 0) {
+                html += '<p style="margin-top: 15px;"><strong>⚠️ Warnings:</strong></p><ul>';
+                data.warnings.forEach(w => {
+                    html += `<li>${w}</li>`;
+                });
+                html += '</ul>';
+            }
+            
+            if (!data.is_safe) {
+                html += `
+                    <div style="margin-top: 15px; padding: 15px; background: rgba(220,53,69,0.1); border-radius: 10px;">
+                        <strong>🛡️ सुरक्षा टिप्स:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>इस link पर click मत करें</li>
+                            <li>OTP/PIN किसी को मत बताएं</li>
+                            <li>Bank से confirm करें</li>
+                            ${data.is_payment_request ? '<li><strong>Payment request QR KABHI scan mat karo!</strong></li>' : ''}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            resultsDiv.className = `results ${className}`;
+            resultsDiv.innerHTML = html;
+            resultsDiv.style.display = 'block';
+        }
+        
+        function testURL(url) {
+            document.getElementById('urlInput').value = url;
+            checkURL();
+        }
+        
+        async function checkURL() {
+            const url = document.getElementById('urlInput').value.trim();
+            
+            if (!url) {
+                alert('Kripya URL enter karein');
+                return;
+            }
+            
+            showLoading('url');
+            
+            try {
+                const response = await fetch('/api/check-url', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ url: url })
+                });
+                
+                const data = await response.json();
+                hideLoading('url');
+                
+                if (data.error) {
+                    showError('url', data.error);
+                } else {
+                    displayURLResults(data);
+                }
+            } catch (error) {
+                hideLoading('url');
+                showError('url', 'Error: ' + error.message);
+            }
+        }
+        
+        async function analyzeAudio() {
+            const fileInput = document.getElementById('audioInput');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                return;
+            }
+            
+            showLoading('audio');
+            
+            try {
+                const formData = new FormData();
+                formData.append('audio_file', file);
+                
+                const response = await fetch('/api/analyze-audio', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                hideLoading('audio');
+                
+                if (data.error) {
+                    showError('audio', data.error);
+                } else {
+                    displayAudioResults(data);
+                }
+            } catch (error) {
+                hideLoading('audio');
+                showError('audio', 'Error: ' + error.message);
+            }
+        }
+        
+        function displayURLResults(data) {
+            const resultsDiv = document.getElementById('urlResults');
+            let className = data.is_safe ? 'safe' : 'danger';
+            if (data.risk === 'MEDIUM') className = 'warning';
+            
+            // Voice alert for scam detection with domain name
+            if (data.is_not_url) {
+                // It's not a URL, just plain text
+                speakAlert('यह कोई लिंक नहीं है। यह सिर्फ टेक्स्ट है।');
+            } else if (!data.is_safe) {
+                let alertMsg = 'सावधान! यह लिंक खतरनाक है। ';
+                if (data.domain) {
+                    alertMsg += `डोमेन नाम है ${data.domain}। `;
+                }
+                alertMsg += 'यह फिशिंग वेबसाइट हो सकती है। इस पर क्लिक मत करें।';
+                speakAlert(alertMsg);
+            } else {
+                let alertMsg = 'यह लिंक सुरक्षित है। ';
+                if (data.domain) {
+                    alertMsg += `डोमेन नाम है ${data.domain}।`;
+                }
+                speakAlert(alertMsg);
+            }
+            
+            let html = `
+                <div style="font-size: 1.3em; font-weight: bold; margin-bottom: 15px;">
+                    ${data.message_hi}
+                </div>
+                <p><strong>🔍 Link:</strong> ${data.content.substring(0, 50)}...</p>
+                <div class="risk-badge risk-${data.risk.toLowerCase()}">${data.risk} RISK</div>
+            `;
+            
+            if (data.warnings && data.warnings.length > 0) {
+                html += '<p style="margin-top: 15px;"><strong>⚠️ Warnings:</strong></p><ul>';
+                data.warnings.forEach(w => {
+                    html += `<li>${w}</li>`;
+                });
+                html += '</ul>';
+            }
+            
+            if (!data.is_safe) {
+                html += `
+                    <div style="margin-top: 15px; padding: 15px; background: rgba(220,53,69,0.1); border-radius: 10px;">
+                        <strong>🛡️ सुरक्षा टिप्स:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>इस link पर click मत करें</li>
+                            <li>OTP/PIN किसी को मत बताएं</li>
+                            <li>Bank से confirm करें</li>
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            resultsDiv.className = `results ${className}`;
+            resultsDiv.innerHTML = html;
+            resultsDiv.style.display = 'block';
+        }
+        
+        function displayAudioResults(data) {
+            const resultsDiv = document.getElementById('audioResults');
+            let className = data.is_suspicious ? 'danger' : 'safe';
+            
+            // Voice alert for audio fraud detection with details
+            if (data.is_suspicious) {
+                let alertMsg = 'खतरा! यह आवाज़ फेक है। ';
+                if (data.ml_based) {
+                    alertMsg += 'हमारे AI model ने इसे deepfake detect किया है। ';
+                }
+                alertMsg += 'यह AI से बनाई गई हो सकती है। विश्वास मत करो!';
+                speakAlert(alertMsg);
+            } else {
+                speakAlert('यह आवाज़ असली लग रही है। यह real voice है।');
+            }
+            
+            let html = `
+                <div style="font-size: 1.3em; font-weight: bold; margin-bottom: 15px;">
+                    ${data.is_suspicious ? '⚠️ Suspicious Audio!' : '✅ Audio Normal Hai'}
+                </div>
+                <p><strong>Reason:</strong> ${data.reason}</p>
+                <p><strong>Confidence:</strong> ${Math.round(data.confidence * 100)}%</p>
+                <p><strong>File Size:</strong> ${data.file_size}</p>
+            `;
+            
+            if (data.warnings && data.warnings.length > 0) {
+                html += '<p style="margin-top: 15px;"><strong>⚠️ Warnings:</strong></p><ul>';
+                data.warnings.forEach(w => {
+                    html += `<li>${w}</li>`;
+                });
+                html += '</ul>';
+            }
+            
+            if (data.is_suspicious) {
+                html += `
+                    <div style="margin-top: 15px; padding: 15px; background: rgba(220,53,69,0.1); border-radius: 10px;">
+                        <strong>🛡️ सुरक्षा टिप्स:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>OTP/PIN किसी को मत बताएं</li>
+                            <li>Bank कभी call करके password नहीं मांगता</li>
+                            <li>Urgent calls से सावधान रहें</li>
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            resultsDiv.className = `results ${className}`;
+            resultsDiv.innerHTML = html;
+            resultsDiv.style.display = 'block';
+        }
+        
+        function showError(type, message) {
+            const resultsDiv = document.getElementById(type + 'Results');
+            resultsDiv.className = 'results danger';
+            resultsDiv.innerHTML = `
+                <div style="font-size: 1.3em; font-weight: bold; margin-bottom: 10px;">❌ Error</div>
+                <p>${message}</p>
+            `;
+            resultsDiv.style.display = 'block';
+        }
+        
+        function showLoading(type) {
+            document.getElementById(type + 'Loading').style.display = 'block';
+            document.getElementById(type + 'Results').style.display = 'none';
+        }
+        
+        function hideLoading(type) {
+            document.getElementById(type + 'Loading').style.display = 'none';
+        }
+        
+        // Enter key support for URL input
+        document.getElementById('urlInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkURL();
+            }
+        });
+    </script>
+</body>
+</html>

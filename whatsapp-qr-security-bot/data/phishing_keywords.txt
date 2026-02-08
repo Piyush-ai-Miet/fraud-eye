@@ -1,0 +1,63 @@
+verify
+urgent
+suspended
+blocked
+confirm
+update
+expire
+claim
+prize
+winner
+free
+refund
+cashback
+otp
+pin
+cvv
+password
+account
+bank
+restore
+reactivate
+kyc
+validate
+authenticate
+secure
+alert
+warning
+action required
+limited time
+act now
+click here
+verify now
+update now
+confirm identity
+security alert
+unusual activity
+suspicious login
+unauthorized access
+temporary block
+payment failed
+transaction declined
+account locked
+verify payment
+confirm transaction
+update details
+renew subscription
+claim reward
+congratulations
+you won
+lottery
+jackpot
+inheritance
+tax refund
+government scheme
+subsidy
+benefit
+compensation
+settlement
+legal notice
+court summons
+arrest warrant
+fine payment
+penalty

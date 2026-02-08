@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Face Recognition</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .eye-logo {
+            position: relative;
+            width: 120px;
+            height: 80px;
+            margin: 0 auto 30px;
+        }
+        
+        .eye-outer {
+            position: absolute;
+            width: 120px;
+            height: 60px;
+            border: 4px solid #667eea;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            top: 10px;
+        }
+        
+        .eye-iris {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #667eea 0%, #764ba2 70%, #000 100%);
+            border-radius: 50%;
+            top: 15px;
+            left: 35px;
+            animation: eyeScan 2s infinite;
+        }
+        
+        .eye-pupil {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #000;
+            border-radius: 50%;
+            top: 15px;
+            left: 15px;
+        }
+        
+        @keyframes eyeScan {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto 30px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        #webcam {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .face-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 250px;
+            border: 3px solid #667eea;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+        }
+        
+        .status {
+            padding: 15px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .status.scanning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin: 10px;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .instructions {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .instructions h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ul {
+            margin-left: 20px;
+            color: #666;
+        }
+        
+        .instructions li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Eye Logo -->
+        <div class="eye-logo">
+            <div class="eye-outer">
+                <div class="eye-iris">
+                    <div class="eye-pupil"></div>
+                </div>
+            </div>
+        </div>
+        
+        <h1>🛡️ Admin Login</h1>
+        <p class="subtitle">Username, Password & Face Recognition</p>
+        
+        <!-- Status Messages -->
+        <div id="status" class="status" style="display: none;"></div>
+        
+        <!-- Step 1: Username/Password (Always visible first) -->
+        <div id="credentialsForm" style="display: block;">
+            <div style="text-align: left; margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; color: #333; font-weight: bold;">
+                    👤 Username
+                </label>
+                <input type="text" id="username" placeholder="Enter username" 
+                       style="width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 1em;"
+                       value="admin">
+            </div>
+            
+            <div style="text-align: left; margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; color: #333; font-weight: bold;">
+                    🔒 Password
+                </label>
+                <input type="password" id="password" placeholder="Enter password"
+                       style="width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 1em;"
+                       value="admin123">
+            </div>
+            
+            <button class="btn" onclick="verifyCredentials()">
+                Next: Face Recognition →
+            </button>
+            
+            <p style="margin-top: 15px; color: #666; font-size: 0.9em;">
+                Default: admin / admin123
+            </p>
+        </div>
+        
+        <!-- Step 2: Face Recognition (Hidden initially) -->
+        <div id="faceForm" style="display: none;">
+            <p style="margin-bottom: 20px; color: #666; font-size: 1.1em;">
+                ✅ Credentials verified! Now register/verify your face.
+            </p>
+        
+        <!-- Webcam Video -->
+        <div class="video-container" id="videoContainer" style="display: none;">
+            <video id="webcam" autoplay playsinline></video>
+            <div class="face-overlay"></div>
+        </div>
+        
+        <!-- Status Messages (moved here for face section) -->
+        <div id="faceStatus" class="status" style="display: none;"></div>
+        
+        <!-- Buttons -->
+        <button class="btn" id="startBtn" onclick="startFaceRecognition()" style="display: none;">
+            📷 Start Camera
+        </button>
+        
+        <button class="btn" id="captureBtn" onclick="captureAndVerify()" style="display: none;">
+            ✅ Verify Face
+        </button>
+        
+        <button class="btn" style="background: #6c757d; display: none;" id="backBtn" onclick="goBack()">
+            ← Back to Login
+        </button>
+        </div>
+        
+        <!-- Instructions -->
+        <div class="instructions">
+            <h3>📋 Instructions:</h3>
+            <ul>
+                <li>Click "Start Face Recognition"</li>
+                <li>Allow camera access</li>
+                <li>Position your face in the oval</li>
+                <li>Click "Verify Face" to login</li>
+                <li>Good lighting required</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        let stream = null;
+        let videoElement = null;
+        
+        function showStatus(message, type, elementId = 'status') {
+            const status = document.getElementById(elementId);
+            status.textContent = message;
+            status.className = `status ${type}`;
+            status.style.display = 'block';
+        }
+        
+        function hideStatus(elementId = 'status') {
+            document.getElementById(elementId).style.display = 'none';
+        }
+        
+        async function verifyCredentials() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (!username || !password) {
+                showStatus('❌ Please enter username and password', 'error');
+                return;
+            }
+            
+            showStatus('🔍 Verifying credentials...', 'scanning');
+            
+            try {
+                const response = await fetch('/api/admin/verify-credentials', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const result = await response.json();
+                
+                if (result.verified) {
+                    showStatus('✅ Credentials verified! Now verify face...', 'success');
+                    
+                    // Enable face verification
+                    setTimeout(() => {
+                        document.getElementById('credentialsForm').style.opacity = '0.5';
+                        document.getElementById('startBtn').style.display = 'block';
+                        hideStatus();
+                    }, 1000);
+                } else {
+                    showStatus('❌ ' + result.message, 'error');
+                }
+            } catch (error) {
+                showStatus('❌ Error: ' + error.message, 'error');
+            }
+        }
+        
+        function goBack() {
+            // Stop camera if running
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            
+            // Show credentials form, hide face form
+            document.getElementById('faceForm').style.display = 'none';
+            document.getElementById('credentialsForm').style.display = 'block';
+            document.getElementById('videoContainer').style.display = 'none';
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('captureBtn').style.display = 'none';
+            document.getElementById('backBtn').style.display = 'none';
+            hideStatus();
+            hideStatus('faceStatus');
+        }
+        
+        async function startFaceRecognition() {
+            try {
+                showStatus('📸 Starting camera...', 'scanning', 'faceStatus');
+                
+                // Request camera access
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        width: { ideal: 640 },
+                        height: { ideal: 480 },
+                        facingMode: 'user'
+                    } 
+                });
+                
+                videoElement = document.getElementById('webcam');
+                videoElement.srcObject = stream;
+                
+                document.getElementById('videoContainer').style.display = 'block';
+                document.getElementById('startBtn').style.display = 'none';
+                document.getElementById('captureBtn').style.display = 'inline-block';
+                
+                showStatus('👤 Position your face in the oval', 'scanning', 'faceStatus');
+                
+            } catch (error) {
+                console.error('Camera error:', error);
+                showStatus('❌ Camera access denied. Please allow camera permission.', 'error', 'faceStatus');
+            }
+        }
+        
+        async function captureAndVerify() {
+            try {
+                showStatus('🔍 Verifying face...', 'scanning', 'faceStatus');
+                document.getElementById('captureBtn').disabled = true;
+                
+                // First check if credentials were verified
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                if (!username || !password) {
+                    showStatus('❌ Please verify credentials first', 'error', 'faceStatus');
+                    document.getElementById('captureBtn').disabled = false;
+                    return;
+                }
+                
+                // Capture image from video
+                const canvas = document.createElement('canvas');
+                canvas.width = videoElement.videoWidth;
+                canvas.height = videoElement.videoHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(videoElement, 0, 0);
+                
+                // Convert to blob
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.8));
+                
+                // Send to server for 2-step verification
+                const formData = new FormData();
+                formData.append('face_image', blob, 'face.jpg');
+                
+                const response = await fetch('/api/admin/verify-face-2step', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.verified) {
+                    showStatus('✅ Face verified! Redirecting...', 'success', 'faceStatus');
+                    
+                    // Store session token
+                    localStorage.setItem('admin_token', result.token);
+                    
+                    // Stop camera
+                    if (stream) {
+                        stream.getTracks().forEach(track => track.stop());
+                    }
+                    
+                    // Redirect to admin dashboard
+                    setTimeout(() => {
+                        window.location.href = '/admin';
+                    }, 1500);
+                } else {
+                    showStatus('❌ ' + result.message, 'error', 'faceStatus');
+                    document.getElementById('captureBtn').disabled = false;
+                }
+                
+            } catch (error) {
+                console.error('Verification error:', error);
+                showStatus('❌ Verification failed. Try again.', 'error', 'faceStatus');
+                document.getElementById('captureBtn').disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "last_updated": "2026-02-06 19:03:29",
+  "next_update": "2026-02-13 19:03:29",
+  "update_frequency": "weekly",
+  "total_scams": 3,
+  "scams": [
+    {
+      "title": "AI Voice Cloning Scam",
+      "description": "Fraudsters using AI to clone voices of family members, calling for urgent money transfers. Over 5000 cases reported in January 2026.",
+      "date": "2026-02-03",
+      "severity": "Critical",
+      "source": "Times of India",
+      "prevention": "Verify caller identity with secret questions. Don't trust voice alone. Ask something only real person would know."
+    },
+    {
+      "title": "UPI QR Code Scam",
+      "description": "Scammers sending fake UPI QR codes via WhatsApp claiming prize money, refunds, or KYC updates. Scanning leads to instant money deduction.",
+      "date": "2026-02-05",
+      "severity": "Critical",
+      "source": "Cyber Crime Portal",
+      "prevention": "Never scan QR codes from unknown sources. Verify sender identity. Check if domain is official bank/payment app."
+    },
+    {
+      "title": "Digital Arrest Scam",
+      "description": "Fake police/CBI officers video calling claiming arrest warrant, demanding money to avoid arrest. 10,000+ victims lost ₹200 crores in 2025.",
+      "date": "2026-01-30",
+      "severity": "Critical",
+      "source": "NDTV",
+      "prevention": "Police never demand money over video call. No such thing as 'digital arrest'. Report immediately to 1930."
+    }
+  ]
+}

@@ -421,14 +421,19 @@ This will make fraud detection **10x more accessible** to rural India.
 Python 3.8+
 pip
 virtualenv (recommended)
+Git LFS (for ML models)
 ```
 
 ### Installation
 
 ```bash
 # Clone repository
-git clone https://github.com/Piyush-ai-Miet/fraud-eye-private.git
-cd fraud-eye-private
+git clone https://github.com/Piyush-ai-Miet/fraud-eye.git
+cd fraud-eye
+
+# Install Git LFS (if not already installed)
+git lfs install
+git lfs pull  # Download ML models
 
 # Create virtual environment
 python -m venv venv
@@ -437,6 +442,14 @@ source venv/bin/activate  # Windows: venv\Scripts\activate
 # Install dependencies
 cd whatsapp-qr-security-bot
 pip install -r requirements.txt
+
+# Setup environment variables
+cp .env.example .env
+# Edit .env and add your credentials
+
+# Generate admin password hash
+python admin_credentials_secure.py
+# Copy the hash to your .env file
 
 # Run application
 python app_simple.py
@@ -448,6 +461,50 @@ python app_simple.py
 📊 Scanner:    http://localhost:5001/scanner
 👤 Admin:      http://localhost:5001/admin
 ```
+
+---
+
+## 🔐 Admin Panel Setup
+
+### Security Notice
+⚠️ **Admin credentials are managed via environment variables for production-grade security.**
+
+### First-Time Setup
+
+**Step 1: Generate Password Hash**
+```bash
+python admin_credentials_secure.py
+# Enter your desired password
+# Copy the generated hash
+```
+
+**Step 2: Set Environment Variables**
+
+**Local Development (.env file):**
+```bash
+ADMIN_USERNAME=your_username
+ADMIN_PASSWORD_HASH=your_generated_hash
+FACE_AUTH_ENABLED=true
+```
+
+**Production (Render/Heroku):**
+1. Go to Environment Variables section
+2. Add `ADMIN_USERNAME` and `ADMIN_PASSWORD_HASH`
+3. Redeploy service
+
+**Step 3: Register Face (After First Login)**
+1. Login with username/password
+2. Visit `/admin/register`
+3. Capture 4 face angles (center, left, right, up)
+4. Face data stored server-side only
+
+### Security Features
+- ✅ 2-step authentication (Password + Face)
+- ✅ Credentials never in code/GitHub
+- ✅ Face data encrypted server-side
+- ✅ Unauthorized access logging
+- ✅ Session timeout (24h)
+- ✅ Photo capture on failed attempts
 
 ---
 

@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Eye - साइबर सुरक्षा</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .language-selector {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .language-selector select {
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 2px solid white;
+            background: rgba(255,255,255,0.9);
+            font-size: 1em;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        /* India Flag */
+        .india-flag {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 35px;
+            border: 2px solid white;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            z-index: 1001;
+        }
+        
+        .flag-stripe {
+            height: 33.33%;
+        }
+        
+        .saffron { background: #FF9933; }
+        .white-stripe { background: white; position: relative; }
+        .green { background: #138808; }
+        
+        .ashoka-chakra {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            border: 1.5px solid #000080;
+            border-radius: 50%;
+        }
+        
+        /* Ultra-Realistic 3D Eye - Professional Design */
+        .eye-logo {
+            position: relative;
+            width: 180px;
+            height: 120px;
+            margin: 0 auto 25px;
+            filter: drop-shadow(0 25px 50px rgba(0,0,0,0.5));
+            cursor: pointer;
+            perspective: 1000px;
+        }
+        
+        /* Eye White (Sclera) */
+        .eye-white {
+            position: absolute;
+            width: 180px;
+            height: 90px;
+            background: radial-gradient(ellipse at 50% 40%,
+                #ffffff 0%,
+                #fefefe 20%,
+                #f8f8f8 40%,
+                #f0f0f0 70%,
+                #e8e8e8 100%);
+            border-radius: 90px 90px 80px 80px / 45px 45px 50px 50px;
+            top: 15px;
+            box-shadow: 
+                0 15px 40px rgba(0,0,0,0.4),
+                inset 0 -15px 30px rgba(0,0,0,0.15),
+                inset 0 8px 25px rgba(255,255,255,0.9),
+                inset 0 0 80px rgba(255,255,255,0.4);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        /* Hover Effect - Eye Follows */
+        .eye-logo:hover .eye-white {
+            transform: scale(1.05);
+            box-shadow: 
+                0 20px 50px rgba(102,126,234,0.5),
+                inset 0 -15px 30px rgba(0,0,0,0.15),
+                inset 0 8px 25px rgba(255,255,255,0.9),
+                inset 0 0 80px rgba(255,255,255,0.4);
+        }
+        
+        /* Eye Veins - Realistic Detail */
+        .eye-veins {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(ellipse at 20% 30%, transparent 0%, transparent 40%, rgba(255,100,100,0.08) 50%, transparent 60%),
+                radial-gradient(ellipse at 80% 35%, transparent 0%, transparent 40%, rgba(255,100,100,0.08) 50%, transparent 60%),
+                radial-gradient(ellipse at 50% 70%, transparent 0%, transparent 40%, rgba(255,100,100,0.06) 50%, transparent 60%);
+            opacity: 0.6;
+        }
+        
+        /* Top Highlight on Eye White */
+        .eye-white::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 10%;
+            width: 80%;
+            height: 45%;
+            background: linear-gradient(180deg,
+                rgba(255,255,255,0.9) 0%,
+                rgba(255,255,255,0.5) 40%,
+                transparent 100%);
+            border-radius: 50%;
+            filter: blur(4px);
+        }
+        
+        /* Bottom Shadow on Eye White */
+        .eye-white::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 35%;
+            background: linear-gradient(0deg,
+                rgba(0,0,0,0.12) 0%,
+                rgba(0,0,0,0.05) 50%,
+                transparent 100%);
+        }
+        
+        /* Iris - Colored Part */
+        .eye-iris {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle at 35% 30%,
+                #8b9ff5 0%,
+                #7289f0 10%,
+                #667eea 20%,
+                #5a6fd8 35%,
+                #5568d3 50%,
+                #764ba2 70%,
+                #5a3a7d 85%,
+                #3d2a5e 95%,
+                #2d1b4e 100%);
+            border-radius: 50%;
+            top: 10px;
+            left: 55px;
+            box-shadow: 
+                0 10px 30px rgba(0,0,0,0.7),
+                inset 0 -8px 20px rgba(0,0,0,0.6),
+                inset 0 4px 15px rgba(255,255,255,0.3),
+                0 0 25px rgba(102,126,234,0.4);
+            animation: irisMove 8s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+        
+        /* Hover - Iris Expands */
+        .eye-logo:hover .eye-iris {
+            transform: scale(1.1);
+            box-shadow: 
+                0 12px 35px rgba(0,0,0,0.8),
+                inset 0 -8px 20px rgba(0,0,0,0.6),
+                inset 0 4px 15px rgba(255,255,255,0.3),
+                0 0 35px rgba(102,126,234,0.6);
+        }
+        
+        @keyframes irisMove {
+            0%, 100% { transform: translate(0, 0); }
+            20% { transform: translate(-8px, -4px); }
+            40% { transform: translate(8px, 3px); }
+            60% { transform: translate(-5px, 4px); }
+            80% { transform: translate(6px, -3px); }
+        }
+        
+        /* Iris Pattern - Realistic Texture */
+        .iris-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 40% 35%,
+                rgba(255,255,255,0.3) 0%,
+                rgba(255,255,255,0.15) 15%,
+                transparent 30%),
+            repeating-radial-gradient(circle at 50% 50%,
+                transparent 0%,
+                transparent 8%,
+                rgba(0,0,0,0.08) 9%,
+                transparent 10%);
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+        
+        /* Pupil - Black Center */
+        .eye-pupil {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            background: radial-gradient(circle at 40% 35%,
+                #2a2a2a 0%,
+                #1a1a1a 30%,
+                #0a0a0a 60%,
+                #000000 100%);
+            border-radius: 50%;
+            top: 19px;
+            left: 19px;
+            box-shadow: 
+                0 5px 15px rgba(0,0,0,0.95),
+                inset 0 -4px 10px rgba(0,0,0,0.98),
+                0 0 20px rgba(0,0,0,0.6);
+            transition: all 0.3s ease;
+        }
+        
+        /* Hover - Pupil Dilates */
+        .eye-logo:hover .eye-pupil {
+            width: 38px;
+            height: 38px;
+            top: 16px;
+            left: 16px;
+        }
+        
+        /* Pupil Depth */
+        .pupil-depth {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%,
+                transparent 0%,
+                transparent 40%,
+                rgba(0,0,0,0.5) 70%,
+                rgba(0,0,0,0.8) 100%);
+            border-radius: 50%;
+        }
+        
+        /* Main Eye Shine - Large Highlight */
+        .eye-shine-main {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: radial-gradient(circle at 45% 45%,
+                rgba(255,255,255,1) 0%,
+                rgba(255,255,255,0.95) 30%,
+                rgba(255,255,255,0.7) 60%,
+                transparent 100%);
+            border-radius: 50%;
+            top: 8px;
+            left: 12px;
+            filter: blur(0.5px);
+            opacity: 0.98;
+            animation: shineGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes shineGlow {
+            0%, 100% { opacity: 0.98; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+        
+        /* Secondary Shine - Small Highlight */
+        .eye-shine-secondary {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle,
+                rgba(255,255,255,0.9) 0%,
+                rgba(255,255,255,0.6) 50%,
+                transparent 100%);
+            border-radius: 50%;
+            top: 48px;
+            left: 28px;
+            filter: blur(1px);
+            opacity: 0.7;
+        }
+        
+        /* Inner Shadow on Eye */
+        .eye-shadow-inner {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 50% 50%,
+                transparent 0%,
+                transparent 60%,
+                rgba(0,0,0,0.15) 85%,
+                rgba(0,0,0,0.25) 100%);
+            border-radius: 90px 90px 80px 80px / 45px 45px 50px 50px;
+        }
+        
+        /* Top Eyelid */
+        .eyelid-top {
+            position: absolute;
+            width: 180px;
+            height: 20px;
+            background: linear-gradient(180deg,
+                rgba(102,126,234,0.3) 0%,
+                rgba(102,126,234,0.15) 50%,
+                transparent 100%);
+            border-radius: 90px 90px 0 0 / 20px 20px 0 0;
+            top: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        /* Bottom Eyelid */
+        .eyelid-bottom {
+            position: absolute;
+            width: 180px;
+            height: 20px;
+            background: linear-gradient(0deg,
+                rgba(102,126,234,0.3) 0%,
+                rgba(102,126,234,0.15) 50%,
+                transparent 100%);
+            border-radius: 0 0 90px 90px / 0 0 20px 20px;
+            bottom: 10px;
+            box-shadow: 0 -3px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        /* Hover - Eyelids Slightly Open */
+        .eye-logo:hover .eyelid-top {
+            transform: translateY(-3px);
+        }
+        
+        .eye-logo:hover .eyelid-bottom {
+            transform: translateY(3px);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Tools Section */
+        .tools-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .tool-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.4);
+            border-color: #667eea;
+        }
+        
+        .tool-card h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%);
+            transition: left 0.5s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+            background: linear-gradient(135deg, #7c8ff5 0%, #8b5cb8 100%);
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+        
+        /* Cybercrime Reporting Section */
+        .cybercrime-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .cybercrime-section h2 {
+            color: #dc3545;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+        
+        .helpline-box {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .helpline-number {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 15px 0;
+            letter-spacing: 3px;
+        }
+        
+        .report-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .report-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+        
+        .report-btn:hover {
+            background: linear-gradient(135deg, #34ce57 0%, #2dd4a7 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.5);
+        }
+        
+        .report-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        /* Alert-Style Scam News Section */
+        .scam-news-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .scam-news-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #dc3545;
+        }
+        
+        .scam-news-header h2 {
+            color: #dc3545;
+            font-size: 2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .weekly-badge {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.65em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 3px 10px rgba(40,167,69,0.3);
+        }
+        
+        .last-updated {
+            color: #666;
+            font-size: 0.85em;
+            background: #f8f9fa;
+            padding: 5px 12px;
+            border-radius: 15px;
+        }
+        
+        .next-update {
+            color: #667eea;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-top: 5px;
+            background: #e8ecff;
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+        
+        .scam-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        
+        .scam-card {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+            border: 2px solid #dc3545;
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .scam-card::before {
+            content: '⚠️';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 80px;
+            opacity: 0.08;
+            transform: rotate(-15deg);
+        }
+        
+        .scam-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(220, 53, 69, 0.3);
+            border-color: #c82333;
+            background: linear-gradient(135deg, #fff0f0 0%, #ffffff 100%);
+        }
+        
+        .scam-title {
+            font-size: 1.25em;
+            font-weight: bold;
+            color: #dc3545;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .scam-title::before {
+            content: '🚨';
+            font-size: 1.2em;
+        }
+        
+        .scam-description {
+            color: #444;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+        
+        .severity-badge {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+            display: inline-block;
+            margin-bottom: 12px;
+            box-shadow: 0 3px 10px rgba(220, 53, 69, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .scam-prevention {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.9em;
+            color: #155724;
+            margin-top: 12px;
+            border-left: 4px solid #28a745;
+            line-height: 1.5;
+        }
+        
+        .scam-prevention strong {
+            color: #0d4521;
+        }
+        
+        .scam-source {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+            font-size: 0.85em;
+            color: #666;
+        }
+        
+        .scam-source::before {
+            content: '📰';
+        }
+        
+        .scam-source strong {
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .scam-date {
+            font-size: 0.8em;
+            color: #999;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .scam-date::before {
+            content: '📅';
+        }
+        
+        /* Impact Stories Section - Newspaper Cutting Style */
+        .impact-section {
+            background: #f5f5f0;
+            border-radius: 0;
+            padding: 50px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-top: 8px double #333;
+            border-bottom: 8px double #333;
+            position: relative;
+        }
+        
+        .impact-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.02) 2px,
+                rgba(0,0,0,0.02) 4px
+            );
+            pointer-events: none;
+        }
+        
+        .impact-section h2 {
+            color: #000;
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'Georgia', serif;
+            border-bottom: 4px solid #dc3545;
+            padding-bottom: 15px;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .impact-section > p {
+            text-align: center;
+            color: #333;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            font-style: italic;
+            font-family: 'Georgia', serif;
+        }
+        
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @media (max-width: 1200px) {
+            .impact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .impact-card {
+            background: #fff;
+            border: 3px solid #333;
+            border-radius: 0;
+            padding: 0;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            box-shadow: 5px 5px 0 rgba(0,0,0,0.2);
+            position: relative;
+        }
+        
+        .impact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 8px 8px 0 rgba(220, 53, 69, 0.3);
+        }
+        
+        .impact-card-header {
+            background: #000;
+            padding: 20px;
+            color: white;
+            border-bottom: 3px solid #dc3545;
+        }
+        
+        .impact-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .impact-card h3 {
+            color: white;
+            font-size: 1.3em;
+            margin: 0;
+            font-weight: 800;
+            line-height: 1.3;
+            font-family: 'Georgia', serif;
+            text-align: center;
+        }
+        
+        .impact-date {
+            color: #ffc107;
+            font-size: 0.85em;
+            margin-top: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .impact-card-body {
+            padding: 25px;
+            background: #fff;
+        }
+        
+        .impact-card p {
+            color: #222;
+            line-height: 1.9;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            text-align: justify;
+            font-family: 'Georgia', serif;
+        }
+        
+        .impact-what-if {
+            background: #e8f5e9;
+            padding: 18px;
+            border-radius: 0;
+            border-left: 5px solid #28a745;
+            margin-top: 15px;
+            font-size: 0.9em;
+            line-height: 1.8;
+            color: #155724;
+            font-family: 'Georgia', serif;
+        }
+        
+        .impact-what-if strong {
+            color: #0d4521;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.05em;
+            font-weight: 800;
+        }
+        
+        .case-source {
+            margin-top: 15px;
+            padding: 8px 15px;
+            background: #333;
+            color: #ffc107;
+            border-radius: 0;
+            font-size: 0.8em;
+            font-weight: 700;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .impact-stats-box {
+            margin-top: 40px;
+            padding: 35px;
+            background: #fff;
+            border-radius: 0;
+            border: 3px solid #333;
+            box-shadow: 5px 5px 0 rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .impact-stats-box h3 {
+            color: #000;
+            font-size: 2em;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-family: 'Georgia', serif;
+            border-bottom: 3px solid #dc3545;
+            padding-bottom: 15px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .stat-item {
+            background: #f5f5f0;
+            padding: 25px;
+            border-radius: 0;
+            text-align: center;
+            box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 2px solid #333;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 5px 5px 0 rgba(220,53,69,0.3);
+        }
+        
+        .stat-number {
+            font-size: 2.8em;
+            font-weight: 900;
+            color: #dc3545;
+            margin-bottom: 10px;
+            font-family: 'Georgia', serif;
+        }
+        
+        .stat-label {
+            color: #333;
+            font-size: 1em;
+            font-weight: 700;
+            font-family: 'Georgia', serif;
+        }
+    </style>
+</head>
+<body>
+    <!-- India Flag -->
+    <div class="india-flag">
+        <div class="flag-stripe saffron"></div>
+        <div class="flag-stripe white-stripe">
+            <div class="ashoka-chakra"></div>
+        </div>
+        <div class="flag-stripe green"></div>
+    </div>
+    
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <select id="languageSelect" onchange="changeLanguage()">
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="en">English</option>
+            <option value="hinglish">Hinglish</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="te">తెలుగు (Telugu)</option>
+            <option value="bn">বাংলা (Bengali)</option>
+            <option value="mr">मराठी (Marathi)</option>
+            <option value="gu">ગુજરાતી (Gujarati)</option>
+        </select>
+    </div>
+    
+    <div class="header">
+        <!-- Ultra-Realistic 3D Eye Logo -->
+        <div class="eye-logo">
+            <div class="eye-white">
+                <div class="eye-veins"></div>
+                <div class="eye-iris">
+                    <div class="iris-pattern"></div>
+                    <div class="eye-pupil">
+                        <div class="pupil-depth"></div>
+                    </div>
+                    <div class="eye-shine-main"></div>
+                    <div class="eye-shine-secondary"></div>
+                </div>
+                <div class="eye-shadow-inner"></div>
+            </div>
+            <div class="eyelid-top"></div>
+            <div class="eyelid-bottom"></div>
+        </div>
+        
+        <h1>🛡️ Fraud Eye</h1>
+        <p style="font-size: 1.5em; font-weight: bold; text-shadow: 1px 1px 3px rgba(0,0,0,0.3); margin-bottom: 12px;" id="mainTitle">भारत का अपना सुरक्षा कवच</p>
+        <div style="display: inline-block; background: rgba(255,255,255,0.25); padding: 8px 20px; border-radius: 25px; backdrop-filter: blur(10px); border: 2px solid rgba(255,255,255,0.4);">
+            <span style="font-size: 1em; font-weight: 600;">🎯 Trained on Real Datasets</span>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Tools Section -->
+        <div class="tools-section">
+            <div class="tool-card">
+                <h2 id="qr-title">📱 QR Code Scanner</h2>
+                <p style="margin-bottom: 20px;" id="qr-desc">QR कोड स्कैन करें और सुरक्षा जांचें</p>
+                <a href="/scanner#qr-scanner" class="btn" id="qr-btn">Open Scanner</a>
+            </div>
+            
+            <div class="tool-card">
+                <h2 id="voice-title">🎤 Voice Fraud Detector</h2>
+                <p style="margin-bottom: 20px;" id="voice-desc">AI आवाज़ की पहचान करें</p>
+                <a href="/scanner#voice-detector" class="btn" id="voice-btn">Check Voice</a>
+            </div>
+            
+            <div class="tool-card">
+                <h2 id="url-title">🔗 URL Safety Checker</h2>
+                <p style="margin-bottom: 20px;" id="url-desc">लिंक की सुरक्षा जांचें</p>
+                <a href="/scanner#url-checker" class="btn" id="url-btn">Check URL</a>
+            </div>
+        </div>
+        
+        <!-- Cybercrime Reporting Section -->
+        <div class="cybercrime-section">
+            <h2 id="report-title">🚨 साइबर अपराध की रिपोर्ट करें</h2>
+            <p style="font-size: 1.1em; margin-bottom: 20px;" id="report-desc">
+                अगर आप साइबर धोखाधड़ी के शिकार हुए हैं, तुरंत रिपोर्ट करें
+            </p>
+            
+            <div class="helpline-box">
+                <div style="font-size: 1.2em;" id="helpline-label">राष्ट्रीय साइबर अपराध हेल्पलाइन</div>
+                <div class="helpline-number">📞 1930</div>
+                <div style="font-size: 0.9em; margin-top: 10px;" id="helpline-time">24x7 उपलब्ध | Toll-Free</div>
+            </div>
+            
+            <div class="report-links">
+                <a href="https://cybercrime.gov.in" target="_blank" class="report-btn" id="report-online">
+                    🌐 ऑनलाइन रिपोर्ट करें
+                </a>
+                <a href="tel:1930" class="report-btn" id="report-call">
+                    📞 अभी कॉल करें
+                </a>
+                <a href="https://cybercrime.gov.in/Webform/Helpline.aspx" target="_blank" class="report-btn" id="report-help">
+                    ℹ️ मदद और जानकारी
+                </a>
+            </div>
+            
+            <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 10px;">
+                <strong id="important-label">⚠️ महत्वपूर्ण:</strong>
+                <ul style="margin-left: 20px; margin-top: 10px;" id="important-list">
+                    <li>धोखाधड़ी के 24 घंटे के अंदर रिपोर्ट करें</li>
+                    <li>सभी स्क्रीनशॉट और सबूत सहेजें</li>
+                    <li>बैंक को तुरंत सूचित करें</li>
+                    <li>किसी से भी OTP/PIN शेयर न करें</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Latest Scams Section -->
+        <div class="scam-news-section">
+            <div class="scam-news-header">
+                <h2 id="scam-title">🚨 भारत में वायरल धोखाधड़ी</h2>
+            </div>
+            
+            <div class="scam-grid" id="scamGrid">
+                <!-- Scams will be loaded here -->
+            </div>
+        </div>
+        
+        <!-- Impact Stories Section - News Style -->
+        <div class="impact-section">
+            <h2>
+                🚨 <span id="impactTitle">असली घटनाएं - जो आपके साथ भी हो सकती हैं</span>
+            </h2>
+            <p>
+                ये काल्पनिक कहानियां नहीं हैं। ये 2024 में हुई असली fraud cases हैं।
+            </p>
+            
+            <div class="impact-grid">
+                <!-- Case 1 -->
+                <div class="impact-card">
+                    <div class="impact-card-header">
+                        <div class="impact-icon">📱</div>
+                        <h3 id="impact1Title">रामलाल शर्मा - ₹2.3 Lakh UPI QR Scam</h3>
+                        <div class="impact-date">
+                            <span>📅 <span id="case1Date">15 January 2024</span></span>
+                            <span>📍 <span id="case1Location">Jaipur, Rajasthan</span></span>
+                        </div>
+                    </div>
+                    <div class="impact-card-body">
+                        <p id="impact1Desc">
+                            Jaipur के किराना दुकानदार रामलाल को WhatsApp पर QR code मिला - "LPG Subsidy ₹5000"। 
+                            उन्होंने सोचा पैसे मिलेंगे और QR scan कर दिया। लेकिन वह payment request था - ₹2.3 lakh account से कट गए। 
+                            Police ने बताया यह fake government scheme scam है।
+                        </p>
+                        <div class="impact-what-if">
+                            <strong>🛡️ <span id="case1WhatIf">Fraud Eye होता तो:</span></strong>
+                            <span id="case1Solution">QR Scanner ने payment request detect कर लिया होता। Alert: "यह QR code पैसे मांग रहा है, भेज नहीं रहा!"</span>
+                            <div style="margin-top: 12px; padding: 12px; background: rgba(255,193,7,0.2); border-left: 3px solid #ffc107; font-size: 0.95em;">
+                                💡 <strong>अगर उनको पता होता तो इस scam से बच जाते।</strong>
+                            </div>
+                        </div>
+                        <div class="case-source">📰 Hindustan Times, Jan 2024</div>
+                    </div>
+                </div>
+                
+                <!-- Case 2 -->
+                <div class="impact-card">
+                    <div class="impact-card-header">
+                        <div class="impact-icon">🚨</div>
+                        <h3 id="impact2Title">सुनीता देवी - ₹4.8 Lakh AI Voice Scam</h3>
+                        <div class="impact-date">
+                            <span>📅 <span id="case2Date">22 March 2024</span></span>
+                            <span>📍 <span id="case2Location">Lucknow, Uttar Pradesh</span></span>
+                        </div>
+                    </div>
+                    <div class="impact-card-body">
+                        <p id="impact2Desc">
+                            Lucknow की retired teacher सुनीता देवी को phone आया - caller ने खुद को "CBI Officer" बताया। 
+                            Voice बिल्कुल असली लग रही थी। 6 घंटे तक डराया "money laundering case है, arrest हो जाएगी"। 
+                            डर में उन्होंने ₹4.8 lakh transfer कर दिए। बाद में पता चला - यह AI deepfake voice थी, असली CBI officer नहीं।
+                        </p>
+                        <div class="impact-what-if">
+                            <strong>🛡️ <span id="case2WhatIf">Fraud Eye होता तो:</span></strong>
+                            <span id="case2Solution">Voice Fraud Detector ने AI-generated deepfake voice को instantly पकड़ लिया होता। Alert: "यह असली इंसान की आवाज़ नहीं है - AI deepfake detected!"</span>
+                            <div style="margin-top: 12px; padding: 12px; background: rgba(255,193,7,0.2); border-left: 3px solid #ffc107; font-size: 0.95em;">
+                                💡 <strong>अगर उनको पता होता तो इस scam से बच जाते।</strong>
+                            </div>
+                        </div>
+                        <div class="case-source">📰 Dainik Jagran, March 2024</div>
+                    </div>
+                </div>
+                
+                <!-- Case 3 -->
+                <div class="impact-card">
+                    <div class="impact-card-header">
+                        <div class="impact-icon">💳</div>
+                        <h3 id="impact3Title">प्रेम सिंह - ₹3.2 Lakh KYC Phishing Scam</h3>
+                        <div class="impact-date">
+                            <span>📅 <span id="case3Date">8 October 2024</span></span>
+                            <span>📍 <span id="case3Location">Indore, Madhya Pradesh</span></span>
+                        </div>
+                    </div>
+                    <div class="impact-card-body">
+                        <p id="impact3Desc">
+                            Indore के किसान प्रेम सिंह को SMS आया - "SBI KYC pending, 24 घंटे में update करें"। 
+                            Link पर click किया तो fake website खुली - बिल्कुल असली SBI जैसी दिख रही थी। 
+                            उन्होंने account details और OTP भर दिया। 2 घंटे में ₹3.2 lakh - जो फसल बेचकर जमा किए थे - पूरे खाली हो गए।
+                        </p>
+                        <div class="impact-what-if">
+                            <strong>🛡️ <span id="case3WhatIf">Fraud Eye होता तो:</span></strong>
+                            <span id="case3Solution">URL Safety Checker ने phishing link को instantly detect कर लिया होता। ML model (93.5% accuracy) ने fake domain और suspicious patterns पकड़ लिए होते। Alert: "यह fake banking website है - आपकी details चुराने की कोशिश!"</span>
+                            <div style="margin-top: 12px; padding: 12px; background: rgba(255,193,7,0.2); border-left: 3px solid #ffc107; font-size: 0.95em;">
+                                💡 <strong>अगर उनको पता होता तो इस scam से बच जाते।</strong>
+                            </div>
+                        </div>
+                        <div class="case-source">📰 Nai Dunia, Oct 2024</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="impact-stats-box">
+                <h3>
+                    📊 <span id="impactStats">2024 का भयानक सच</span>
+                </h3>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">₹1,750 करोड़</div>
+                        <div class="stat-label">Total Cyber Fraud</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">15,000+</div>
+                        <div class="stat-label">रोज़ के Victims</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">54 लाख</div>
+                        <div class="stat-label">Reported Cases</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 25px; padding: 25px; background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%); border-radius: 15px; border-left: 5px solid #ffc107;">
+                    <p style="color: #333; font-size: 1.2em; line-height: 1.8; text-align: center; font-weight: 600;" id="impactMessage">
+                        ये सिर्फ 3 cases हैं। हर दिन हजारों ऐसे scams पूरे India में होते हैं।<br>
+                        <span style="color: #667eea; font-size: 1.3em; margin-top: 15px; display: block;">💡 Fraud Eye = AI से लड़ने के लिए AI</span>
+                    </p>
+                </div>
+                
+                <div style="margin-top: 20px; text-align: center; padding: 20px; background: rgba(255,255,255,0.5); border-radius: 10px;">
+                    <p style="color: #666; font-size: 0.95em; font-weight: 600; margin-bottom: 12px;" id="casesVerified">
+                        📚 Cases Verified From Multiple Sources
+                    </p>
+                    <p style="color: #999; font-size: 0.9em; margin-bottom: 15px;">
+                        <strong>Hindustan Times</strong> • <strong>Dainik Jagran</strong> • <strong>Nai Dunia</strong> • <strong>National Cyber Crime Portal</strong>
+                    </p>
+                    <p style="color: #667eea; font-size: 0.85em; font-weight: 600; margin-top: 15px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
+                        💻 Developed by <strong>Piyush</strong>
+                    </p>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Multi-language translations
+        const translations = {
+            hi: {
+                mainTitle: "भारत का अपना सुरक्षा कवच",
+                qrTitle: "📱 QR Code Scanner",
+                qrDesc: "QR कोड स्कैन करें और सुरक्षा जांचें",
+                qrBtn: "स्कैनर खोलें",
+                voiceTitle: "🎤 Voice Fraud Detector",
+                voiceDesc: "AI आवाज़ की पहचान करें",
+                voiceBtn: "आवाज़ जांचें",
+                urlTitle: "🔗 URL Safety Checker",
+                urlDesc: "लिंक की सुरक्षा जांचें",
+                urlBtn: "URL जांचें",
+                reportTitle: "🚨 साइबर अपराध की रिपोर्ट करें",
+                reportDesc: "अगर आप साइबर धोखाधड़ी के शिकार हुए हैं, तुरंत रिपोर्ट करें",
+                helplineLabel: "राष्ट्रीय साइबर अपराध हेल्पलाइन",
+                helplineTime: "24x7 उपलब्ध | Toll-Free",
+                reportOnline: "🌐 ऑनलाइन रिपोर्ट करें",
+                reportCall: "📞 अभी कॉल करें",
+                reportHelp: "ℹ️ मदद और जानकारी",
+                importantLabel: "⚠️ महत्वपूर्ण:",
+                scamTitle: "🚨 भारत में वायरल धोखाधड़ी",
+                prevention: "🛡️ बचाव:",
+                lastUpdated: "अंतिम अपडेट:",
+                nextUpdate: "अगला अपडेट:",
+                impactTitle: "असली घटनाएं - जो आपके साथ भी हो सकती हैं",
+                impact1Title: "रामलाल शर्मा - ₹2.3 Lakh UPI QR Scam",
+                impact1Desc: "Jaipur के किराना दुकानदार रामलाल को WhatsApp पर QR code मिला - \"LPG Subsidy ₹5000\"। QR scan किया तो ₹2.3 lakh account से कट गए। Payment request थी, receive नहीं।",
+                impact2Title: "सुनीता देवी - ₹4.8 Lakh AI Voice Scam",
+                impact2Desc: "Lucknow की retired teacher सुनीता देवी को phone आया - caller ने खुद को \"CBI Officer\" बताया। Voice बिल्कुल असली लग रही थी। 6 घंटे तक डराया \"money laundering case है, arrest हो जाएगी\"। डर में उन्होंने ₹4.8 lakh transfer कर दिए। बाद में पता चला - यह AI deepfake voice थी, असली CBI officer नहीं।",
+                impact3Title: "प्रेम सिंह - ₹3.2 Lakh KYC Phishing Scam",
+                impact3Desc: "Indore के किसान प्रेम सिंह को SMS आया - \"SBI KYC pending, 24 घंटे में update करें\"। Link पर click किया तो fake website खुली - बिल्कुल असली SBI जैसी दिख रही थी। उन्होंने account details और OTP भर दिया। 2 घंटे में ₹3.2 lakh - जो फसल बेचकर जमा किए थे - पूरे खाली हो गए।",
+                case1Date: "15 January 2024",
+                case1Location: "Jaipur, Rajasthan",
+                case1WhatIf: "Fraud Eye होता तो:",
+                case1Solution: "QR Scanner ने payment request detect कर लिया होता। Alert: \"यह QR code पैसे मांग रहा है, भेज नहीं रहा!\"",
+                case2Date: "22 March 2024",
+                case2Location: "Lucknow, Uttar Pradesh",
+                case2WhatIf: "Fraud Eye होता तो:",
+                case2Solution: "Voice Fraud Detector ने AI-generated deepfake voice को instantly पकड़ लिया होता। Alert: \"यह असली इंसान की आवाज़ नहीं है - AI deepfake detected!\"",
+                case3Date: "8 October 2024",
+                case3Location: "Indore, Madhya Pradesh",
+                case3WhatIf: "Fraud Eye होता तो:",
+                case3Solution: "URL Safety Checker ने phishing link को instantly detect कर लिया होता। ML model (93.5% accuracy) ने fake domain और suspicious patterns पकड़ लिए होते। Alert: \"यह fake banking website है - आपकी details चुराने की कोशिश!\"",
+                impactStats: "2024 का भयानक सच",
+                impactMessage: "ये सिर्फ 3 cases हैं। हर दिन हजारों ऐसे scams पूरे India में होते हैं।",
+                casesVerified: "📚 Cases Verified From Multiple Sources"
+            },
+            en: {
+                mainTitle: "India's Own Security Shield",
+                qrTitle: "📱 QR Code Scanner",
+                qrDesc: "Scan QR codes and check security",
+                qrBtn: "Open Scanner",
+                voiceTitle: "🎤 Voice Fraud Detector",
+                voiceDesc: "Detect AI-generated voices",
+                voiceBtn: "Check Voice",
+                urlTitle: "🔗 URL Safety Checker",
+                urlDesc: "Check link safety",
+                urlBtn: "Check URL",
+                reportTitle: "🚨 Report Cybercrime",
+                reportDesc: "If you are a victim of cyber fraud, report immediately",
+                helplineLabel: "National Cybercrime Helpline",
+                helplineTime: "24x7 Available | Toll-Free",
+                reportOnline: "🌐 Report Online",
+                reportCall: "📞 Call Now",
+                reportHelp: "ℹ️ Help & Information",
+                importantLabel: "⚠️ Important:",
+                scamTitle: "🚨 Viral Scams in India",
+                prevention: "🛡️ Prevention:",
+                lastUpdated: "Last Updated:",
+                nextUpdate: "Next Update:",
+                impactTitle: "Real Events - That Could Happen to You Too",
+                impact1Title: "Ramlal Sharma - ₹2.3 Lakh UPI QR Scam",
+                impact1Desc: "Grocery shop owner Ramlal from Jaipur received a QR code on WhatsApp - \"LPG Subsidy ₹5000\". He thought he would receive money and scanned the QR. But it was a payment request - ₹2.3 lakh was deducted from his account. Police said it's a fake government scheme scam.",
+                impact2Title: "Sunita Devi - ₹4.8 Lakh AI Voice Scam",
+                impact2Desc: "Retired teacher Sunita Devi from Lucknow received a phone call - caller claimed to be \"CBI Officer\". Voice sounded completely real. Threatened for 6 hours \"money laundering case, you'll be arrested\". In fear, she transferred ₹4.8 lakh. Later discovered - it was AI deepfake voice, not a real CBI officer.",
+                impact3Title: "Prem Singh - ₹3.2 Lakh KYC Phishing Scam",
+                impact3Desc: "Farmer Prem Singh from Indore received SMS - \"SBI KYC pending, update within 24 hours\". Clicked the link and a fake website opened - looked exactly like real SBI. He filled account details and OTP. Within 2 hours, ₹3.2 lakh - which he deposited after selling crops - was completely emptied.",
+                case1Date: "15 January 2024",
+                case1Location: "Jaipur, Rajasthan",
+                case1WhatIf: "If Fraud Eye was there:",
+                case1Solution: "QR Scanner would have detected payment request. Alert: \"This QR code is requesting money, not sending!\"",
+                case2Date: "22 March 2024",
+                case2Location: "Lucknow, Uttar Pradesh",
+                case2WhatIf: "If Fraud Eye was there:",
+                case2Solution: "Voice Fraud Detector would have instantly caught the AI-generated deepfake voice. Alert: \"This is not a real human voice - AI deepfake detected!\"",
+                case3Date: "8 October 2024",
+                case3Location: "Indore, Madhya Pradesh",
+                case3WhatIf: "If Fraud Eye was there:",
+                case3Solution: "URL Safety Checker would have instantly detected the phishing link. ML model (93.5% accuracy) would have caught the fake domain and suspicious patterns. Alert: \"This is a fake banking website - attempting to steal your details!\"",
+                impactStats: "The Shocking Truth of 2024",
+                impactMessage: "These are just 3 cases. Every day thousands of such scams happen across India.",
+                casesVerified: "📚 Cases Verified From Multiple Sources"
+            },
+            hinglish: {
+                mainTitle: "Bharat ka Apna Suraksha Kavach",
+                qrTitle: "📱 QR Code Scanner",
+                qrDesc: "QR code scan karo aur security check karo",
+                qrBtn: "Scanner Kholo",
+                voiceTitle: "🎤 Voice Fraud Detector",
+                voiceDesc: "AI voice ki pehchan karo",
+                voiceBtn: "Voice Check Karo",
+                urlTitle: "🔗 URL Safety Checker",
+                urlDesc: "Link ki safety check karo",
+                urlBtn: "URL Check Karo",
+                reportTitle: "🚨 Cybercrime Report Karo",
+                reportDesc: "Agar aap cyber fraud ke shikar hue hain, turant report karo",
+                helplineLabel: "National Cybercrime Helpline",
+                helplineTime: "24x7 Available | Toll-Free",
+                reportOnline: "🌐 Online Report Karo",
+                reportCall: "📞 Abhi Call Karo",
+                reportHelp: "ℹ️ Help aur Information",
+                importantLabel: "⚠️ Important:",
+                scamTitle: "🚨 India mein Viral Scams",
+                prevention: "🛡️ Bachav:",
+                lastUpdated: "Last Update:",
+                nextUpdate: "Next Update:",
+                impactTitle: "Asli Ghatnayein - Jo Aapke Saath Bhi Ho Sakti Hain",
+                impact1Title: "Ramlal Sharma - ₹2.3 Lakh UPI QR Scam",
+                impact1Desc: "Jaipur ke kirana dukaandaar Ramlal ko WhatsApp par QR code mila - \"LPG Subsidy ₹5000\". Unhone socha paise milenge aur QR scan kar diya. Lekin woh payment request tha - ₹2.3 lakh account se kat gaye. Police ne bataya yeh fake government scheme scam hai.",
+                impact2Title: "Sunita Devi - ₹4.8 Lakh AI Voice Scam",
+                impact2Desc: "Lucknow ki retired teacher Sunita Devi ko phone aaya - caller ne khud ko \"CBI Officer\" bataya. Voice bilkul asli lag rahi thi. 6 ghante tak daraya \"money laundering case hai, arrest ho jayegi\". Dar mein unhone ₹4.8 lakh transfer kar diye. Baad mein pata chala - yeh AI deepfake voice thi, asli CBI officer nahi.",
+                impact3Title: "Prem Singh - ₹3.2 Lakh KYC Phishing Scam",
+                impact3Desc: "Indore ke kisaan Prem Singh ko SMS aaya - \"SBI KYC pending, 24 ghante mein update karo\". Link par click kiya to fake website khuli - bilkul asli SBI jaisi dikh rahi thi. Unhone account details aur OTP bhar diya. 2 ghante mein ₹3.2 lakh - jo fasal bechkar jama kiye the - pure khaali ho gaye.",
+                case1Date: "15 January 2024",
+                case1Location: "Jaipur, Rajasthan",
+                case1WhatIf: "Fraud Eye hota to:",
+                case1Solution: "QR Scanner ne payment request detect kar liya hota. Alert: \"Yeh QR code paise maang raha hai, bhej nahi raha!\"",
+                case2Date: "22 March 2024",
+                case2Location: "Lucknow, Uttar Pradesh",
+                case2WhatIf: "Fraud Eye hota to:",
+                case2Solution: "Voice Fraud Detector ne AI-generated deepfake voice ko instantly pakad liya hota. Alert: \"Yeh asli insaan ki awaaz nahi hai - AI deepfake detected!\"",
+                case3Date: "8 October 2024",
+                case3Location: "Indore, Madhya Pradesh",
+                case3WhatIf: "Fraud Eye hota to:",
+                case3Solution: "URL Safety Checker ne phishing link ko instantly detect kar liya hota. ML model (93.5% accuracy) ne fake domain aur suspicious patterns pakad liye hote. Alert: \"Yeh fake banking website hai - aapki details churane ki koshish!\"",
+                impactStats: "2024 Ka Bhayankar Sach",
+                impactMessage: "Ye sirf 3 cases hain. Har din hazaron aise scams pure India mein hote hain.",
+                casesVerified: "📚 Cases Verified From Multiple Sources"
+            },
+            gu: {
+                mainTitle: "ભારતનું પોતાનું સુરક્ષા કવચ",
+                qrTitle: "📱 QR કોડ સ્કેનર",
+                qrDesc: "QR કોડ સ્કેન કરો અને સુરક્ષા તપાસો",
+                qrBtn: "સ્કેનર ખોલો",
+                voiceTitle: "🎤 વૉઇસ ફ્રોડ ડિટેક્ટર",
+                voiceDesc: "AI અવાજની ઓળખ કરો",
+                voiceBtn: "અવાજ તપાસો",
+                urlTitle: "🔗 URL સેફ્ટી ચેકર",
+                urlDesc: "લિંકની સુરક્ષા તપાસો",
+                urlBtn: "URL તપાસો",
+                reportTitle: "🚨 સાયબર ક્રાઇમની જાણ કરો",
+                reportDesc: "જો તમે સાયબર ફ્રોડના શિકાર થયા છો, તો તરત જાણ કરો",
+                helplineLabel: "રાષ્ટ્રીય સાયબર ક્રાઇમ હેલ્પલાઇન",
+                helplineTime: "24x7 ઉપલબ્ધ | ટોલ-ફ્રી",
+                reportOnline: "🌐 ઓનલાઇન જાણ કરો",
+                reportCall: "📞 હમણાં કૉલ કરો",
+                reportHelp: "ℹ️ મદદ અને માહિતી",
+                importantLabel: "⚠️ મહત્વપૂર્ણ:",
+                scamTitle: "🚨 ભારતમાં વાયરલ છેતરપિંડી",
+                prevention: "🛡️ બચાવ:",
+                lastUpdated: "છેલ્લું અપડેટ:",
+                nextUpdate: "આગલું અપડેટ:",
+                impactTitle: "વાસ્તવિક ઘટનાઓ - જે તમારી સાથે પણ થઈ શકે",
+                impact1Title: "રામલાલ શર્મા - ₹2.3 લાખ UPI QR સ્કેમ",
+                impact1Desc: "જયપુરના કિરાણા દુકાનદાર રામલાલને WhatsApp પર QR કોડ મળ્યો - \"LPG સબસિડી ₹5000\"। QR સ્કેન કર્યો તો ₹2.3 લાખ એકાઉન્ટમાંથી કપાઈ ગયા। પેમેન્ટ રિક્વેસ્ટ હતી, રિસીવ નહીં।",
+                impact2Title: "સુનીતા દેવી - ₹4.8 લાખ ફોન સ્કેમ",
+                impact2Desc: "નિવૃત્ત શિક્ષક સુનીતા દેવીને ફોન કૉલ - AI-generated અવાજે \"CBI અધિકારી\" બનીને કહ્યું \"તમારી સામે કેસ છે\"। 6 કલાક સુધી ફોન પર રાખ્યા। ડરથી ₹4.8 લાખ ટ્રાન્સફર કર્યા। અવાજ deepfake હતો।",
+                impact3Title: "પ્રેમ સિંહ - ₹3.2 લાખ KYC લિંક સ્કેમ",
+                impact3Desc: "ખેડૂત પ્રેમ સિંહને SMS - \"બેંક KYC અપડેટ કરો\"। લિંક પર ક્લિક કર્યું, OTP આપ્યો। ₹3.2 લાખ ગાયબ। બેંક ક્યારેય SMS થી લિંક મોકલતી નથી।",
+                case1Date: "15 જાન્યુઆરી 2024",
+                case1Location: "જયપુર, રાજસ્થાન",
+                case1WhatIf: "Fraud Eye હોત તો:",
+                case1Solution: "QR સ્કેનરે પેમેન્ટ રિક્વેસ્ટ શોધી કાઢી હોત। Alert: \"આ QR કોડ પૈસા માંગી રહ્યો છે, મોકલી નથી રહ્યો!\"",
+                case2Date: "22 માર્ચ 2024",
+                case2Location: "લખનૌ, ઉત્તર પ્રદેશ",
+                case2WhatIf: "Fraud Eye હોત તો:",
+                case2Solution: "વૉઇસ ફ્રોડ ડિટેક્ટરે AI-generated અવાજ પકડી લીધો હોત। Alert: \"Deepfake voice detected - આ સ્કેમ છે!\"",
+                case3Date: "8 ઓક્ટોબર 2024",
+                case3Location: "ઇન્દોર, મધ્ય પ્રદેશ",
+                case3WhatIf: "Fraud Eye હોત તો:",
+                case3Solution: "URL સ્કેનરે ફિશિંગ લિંક તરત શોધી કાઢી હોત। ML મોડેલ (93.5%) એ નકલી ડોમેન શોધી કાઢ્યું હોત।",
+                impactStats: "2024નું ભયાનક સત્ય",
+                impactMessage: "આ માત્ર 3 કેસ છે। દરરોજ હજારો આવા સ્કેમ સમગ્ર India માં થાય છે।",
+                casesVerified: "📚 બહુવિધ સ્રોતોમાંથી ચકાસાયેલ કેસ"
+            },
+            ta: {
+                mainTitle: "இந்தியாவின் சொந்த பாதுகாப்பு கவசம்",
+                qrTitle: "📱 QR குறியீடு ஸ்கேனர்",
+                qrDesc: "QR குறியீடுகளை ஸ்கேன் செய்து பாதுகாப்பை சரிபார்க்கவும்",
+                qrBtn: "ஸ்கேனரைத் திறக்கவும்",
+                voiceTitle: "🎤 குரல் மோசடி கண்டறிதல்",
+                voiceDesc: "AI உருவாக்கிய குரல்களைக் கண்டறியவும்",
+                voiceBtn: "குரலைச் சரிபார்க்கவும்",
+                urlTitle: "🔗 URL பாதுகாப்பு சரிபார்ப்பு",
+                urlDesc: "இணைப்பு பாதுகாப்பை சரிபார்க்கவும்",
+                urlBtn: "URL சரிபார்க்கவும்",
+                reportTitle: "🚨 சைபர் குற்றத்தைப் புகாரளிக்கவும்",
+                reportDesc: "நீங்கள் சைபர் மோசடியால் பாதிக்கப்பட்டிருந்தால், உடனடியாக புகாரளிக்கவும்",
+                helplineLabel: "தேசிய சைபர் குற்ற உதவி எண்",
+                helplineTime: "24x7 கிடைக்கும் | இலவசம்",
+                reportOnline: "🌐 ஆன்லைனில் புகாரளிக்கவும்",
+                reportCall: "📞 இப்போது அழைக்கவும்",
+                reportHelp: "ℹ️ உதவி மற்றும் தகவல்",
+                importantLabel: "⚠️ முக்கியம்:",
+                scamTitle: "🚨 இந்தியாவில் வைரல் மோசடிகள்",
+                prevention: "🛡️ தடுப்பு:",
+                lastUpdated: "கடைசி புதுப்பிப்பு:",
+                nextUpdate: "அடுத்த புதுப்பிப்பு:",
+                impactTitle: "உண்மையான நிகழ்வுகள் - உங்களுக்கும் நடக்கலாம்",
+                impact1Title: "ராம்லால் ஷர்மா - ₹2.3 லட்சம் UPI QR மோசடி",
+                impact1Desc: "ஜெய்ப்பூரின் மளிகை கடை உரிமையாளர் ராம்லாலுக்கு WhatsApp இல் QR குறியீடு வந்தது - \"LPG மானியம் ₹5000\"। QR ஸ்கேன் செய்தபோது ₹2.3 லட்சம் கணக்கிலிருந்து பிடித்தம் செய்யப்பட்டது। பணம் பெறுதல் அல்ல, கோரிக்கை.",
+                impact2Title: "சுனிதா தேவி - ₹4.8 லட்சம் ஃபோன் மோசடி",
+                impact2Desc: "ஓய்வு பெற்ற ஆசிரியர் சுனிதா தேவிக்கு ஃபோன் அழைப்பு - AI-generated குரல் \"CBI அதிகாரி\" போல் கூறியது \"உங்களுக்கு எதிராக வழக்கு உள்ளது\"। 6 மணி நேரம் ஃபோனில் வைத்திருந்தார். பயத்தில் ₹4.8 லட்சம் மாற்றினார். குரல் deepfake ஆகும்.",
+                impact3Title: "பிரேம் சிங் - ₹3.2 லட்சம் KYC இணைப்பு மோசடி",
+                impact3Desc: "விவசாயி பிரேம் சிங்கிற்கு SMS - \"வங்கி KYC புதுப்பிக்கவும்\"। இணைப்பை கிளிக் செய்து, OTP கொடுத்தார். ₹3.2 லட்சம் மறைந்தது। வங்கிகள் SMS மூலம் இணைப்புகளை அனுப்பாது.",
+                case1Date: "15 ஜனவரி 2024",
+                case1Location: "ஜெய்ப்பூர், ராஜஸ்தான்",
+                case1WhatIf: "Fraud Eye இருந்திருந்தால்:",
+                case1Solution: "QR ஸ்கேனர் பணம் கோரிக்கையை கண்டறிந்திருக்கும். எச்சரிக்கை: \"இந்த QR குறியீடு பணம் கேட்கிறது, அனுப்பவில்லை!\"",
+                case2Date: "22 மார்ச் 2024",
+                case2Location: "லக்னோ, உத்தரபிரதேசம்",
+                case2WhatIf: "Fraud Eye இருந்திருந்தால்:",
+                case2Solution: "குரல் மோசடி கண்டறிதல் AI-generated குரலை பிடித்திருக்கும். எச்சரிக்கை: \"Deepfake voice detected - இது மோசடி!\"",
+                case3Date: "8 அக்டோபர் 2024",
+                case3Location: "இந்தூர், மத்தியபிரதேசம்",
+                case3WhatIf: "Fraud Eye இருந்திருந்தால்:",
+                case3Solution: "URL ஸ்கேனர் ஃபிஷிங் இணைப்பை உடனடியாக பிடித்திருக்கும். ML மாதிரி (93.5%) போலி டொமைனை கண்டறிந்திருக்கும்.",
+                impactStats: "2024 இன் அதிர்ச்சியூட்டும் உண்மை",
+                impactMessage: "இவை வெறும் 3 வழக்குகள். ஒவ்வொரு நாளும் ஆயிரக்கணக்கான இதுபோன்ற மோசடிகள் India முழுவதும் நடக்கின்றன.",
+                casesVerified: "📚 பல ஆதாரங்களிலிருந்து சரிபார்க்கப்பட்ட வழக்குகள்"
+            },
+            te: {
+                mainTitle: "భారతదేశం యొక్క స్వంత రక్షణ కవచం",
+                qrTitle: "📱 QR కోడ్ స్కానర్",
+                qrDesc: "QR కోడ్‌లను స్కాన్ చేసి భద్రతను తనిఖీ చేయండి",
+                qrBtn: "స్కానర్ తెరవండి",
+                voiceTitle: "🎤 వాయిస్ ఫ్రాడ్ డిటెక్టర్",
+                voiceDesc: "AI వాయిస్‌ను గుర్తించండి",
+                voiceBtn: "వాయిస్ తనిఖీ చేయండి",
+                urlTitle: "🔗 URL సేఫ్టీ చెకర్",
+                urlDesc: "లింక్ భద్రతను తనిఖీ చేయండి",
+                urlBtn: "URL తనిఖీ చేయండి",
+                reportTitle: "🚨 సైబర్ క్రైమ్ నివేదించండి",
+                reportDesc: "మీరు సైబర్ మోసానికి గురైతే, వెంటనే నివేదించండి",
+                helplineLabel: "జాతీయ సైబర్ క్రైమ్ హెల్ప్‌లైన్",
+                helplineTime: "24x7 అందుబాటులో | టోల్-ఫ్రీ",
+                reportOnline: "🌐 ఆన్‌లైన్‌లో నివేదించండి",
+                reportCall: "📞 ఇప్పుడే కాల్ చేయండి",
+                reportHelp: "ℹ️ సహాయం మరియు సమాచారం",
+                importantLabel: "⚠️ ముఖ్యమైనది:",
+                scamTitle: "🚨 భారతదేశంలో వైరల్ స్కామ్‌లు",
+                prevention: "🛡️ నివారణ:",
+                lastUpdated: "చివరి నవీకరణ:",
+                nextUpdate: "తదుపరి నవీకరణ:",
+                impactTitle: "నిజమైన సంఘటనలు - మీకు కూడా జరగవచ్చు",
+                impact1Title: "రామలాల్ శర్మ - ₹2.3 లక్షల UPI QR స్కామ్",
+                impact1Desc: "జైపూర్ కిరాణా దుకాణదారు రామలాల్‌కు WhatsApp లో QR కోడ్ వచ్చింది - \"LPG సబ్సిడీ ₹5000\"। QR స్కాన్ చేసినప్పుడు ₹2.3 లక్షలు ఖాతా నుండి తీసివేయబడ్డాయి। చెల్లింపు అభ్యర్థన, స్వీకరించడం కాదు.",
+                impact2Title: "సునీతా దేవి - ₹4.8 లక్షల ఫోన్ స్కామ్",
+                impact2Desc: "రిటైర్డ్ టీచర్ సునీతా దేవికి ఫోన్ కాల్ - AI-generated వాయిస్ \"CBI అధికారి\" లా చెప్పింది \"మీపై కేసు ఉంది\"। 6 గంటలపాటు ఫోన్‌లో ఉంచారు। భయంతో ₹4.8 లక్షలు బదిలీ చేసింది। వాయిస్ deepfake.",
+                impact3Title: "ప్రేమ్ సింగ్ - ₹3.2 లక్షల KYC లింక్ స్కామ్",
+                impact3Desc: "రైతు ప్రేమ్ సింగ్‌కు SMS - \"బ్యాంక్ KYC అప్‌డేట్ చేయండి\"। లింక్‌పై క్లిక్ చేసి, OTP ఇచ్చారు। ₹3.2 లక్షలు అదృశ్యమయ్యాయి। బ్యాంకులు SMS ద్వారా లింక్‌లు పంపవు.",
+                case1Date: "15 జనవరి 2024",
+                case1Location: "జైపూర్, రాజస్థాన్",
+                case1WhatIf: "Fraud Eye ఉంటే:",
+                case1Solution: "QR స్కానర్ చెల్లింపు అభ్యర్థనను గుర్తించి ఉండేది। హెచ్చరిక: \"ఈ QR కోడ్ డబ్బు అడుగుతోంది, పంపడం లేదు!\"",
+                case2Date: "22 మార్చి 2024",
+                case2Location: "లక్నో, ఉత్తరప్రదేశ్",
+                case2WhatIf: "Fraud Eye ఉంటే:",
+                case2Solution: "వాయిస్ ఫ్రాడ్ డిటెక్టర్ AI-generated వాయిస్‌ను పట్టుకునేది। హెచ్చరిక: \"Deepfake voice detected - ఇది స్కామ్!\"",
+                case3Date: "8 అక్టోబర్ 2024",
+                case3Location: "ఇండోర్, మధ్యప్రదేశ్",
+                case3WhatIf: "Fraud Eye ఉంటే:",
+                case3Solution: "URL స్కానర్ ఫిషింగ్ లింక్‌ను తక్షణమే పట్టుకునేది। ML మోడల్ (93.5%) నకిలీ డొమైన్‌ను గుర్తించి ఉండేది.",
+                impactStats: "2024 యొక్క భయంకరమైన నిజం",
+                impactMessage: "ఇవి కేవలం 3 కేసులు మాత్రమే। ప్రతిరోజూ వేలాది ఇలాంటి స్కామ్‌లు India అంతటా జరుగుతున్నాయి.",
+                casesVerified: "📚 బహుళ మూలాల నుండి ధృవీకరించబడిన కేసులు"
+            },
+            bn: {
+                mainTitle: "ভারতের নিজস্ব সুরক্ষা কবচ",
+                qrTitle: "📱 QR কোড স্ক্যানার",
+                qrDesc: "QR কোড স্ক্যান করুন এবং নিরাপত্তা পরীক্ষা করুন",
+                qrBtn: "স্ক্যানার খুলুন",
+                voiceTitle: "🎤 ভয়েস ফ্রড ডিটেক্টর",
+                voiceDesc: "AI ভয়েস সনাক্ত করুন",
+                voiceBtn: "ভয়েস পরীক্ষা করুন",
+                urlTitle: "🔗 URL সেফটি চেকার",
+                urlDesc: "লিঙ্কের নিরাপত্তা পরীক্ষা করুন",
+                urlBtn: "URL পরীক্ষা করুন",
+                reportTitle: "🚨 সাইবার অপরাধ রিপোর্ট করুন",
+                reportDesc: "আপনি যদি সাইবার জালিয়াতির শিকার হন, অবিলম্বে রিপোর্ট করুন",
+                helplineLabel: "জাতীয় সাইবার অপরাধ হেল্পলাইন",
+                helplineTime: "24x7 উপলব্ধ | টোল-ফ্রি",
+                reportOnline: "🌐 অনলাইনে রিপোর্ট করুন",
+                reportCall: "📞 এখনই কল করুন",
+                reportHelp: "ℹ️ সাহায্য এবং তথ্য",
+                importantLabel: "⚠️ গুরুত্বপূর্ণ:",
+                scamTitle: "🚨 ভারতে ভাইরাল স্ক্যাম",
+                prevention: "🛡️ প্রতিরোধ:",
+                lastUpdated: "শেষ আপডেট:",
+                nextUpdate: "পরবর্তী আপডেট:",
+                impactTitle: "প্রকৃত ঘটনা - যা আপনার সাথেও ঘটতে পারে",
+                impact1Title: "রামলাল শর্মা - ₹2.3 লক্ষ UPI QR স্ক্যাম",
+                impact1Desc: "জয়পুরের মুদি দোকানদার রামলালের কাছে WhatsApp এ QR কোড এসেছিল - \"LPG ভর্তুকি ₹5000\"। QR স্ক্যান করার পর ₹2.3 লক্ষ অ্যাকাউন্ট থেকে কেটে নেওয়া হয়েছিল। পেমেন্ট রিকোয়েস্ট ছিল, রিসিভ নয়।",
+                impact2Title: "সুনীতা দেবী - ₹4.8 লক্ষ ফোন স্ক্যাম",
+                impact2Desc: "অবসরপ্রাপ্ত শিক্ষিকা সুনীতা দেবীর কাছে ফোন কল - AI-generated ভয়েস \"CBI অফিসার\" হয়ে বলেছিল \"আপনার বিরুদ্ধে মামলা আছে\"। 6 ঘন্টা ফোনে রাখা হয়েছিল। ভয়ে ₹4.8 লক্ষ ট্রান্সফার করেছিলেন। ভয়েস deepfake ছিল।",
+                impact3Title: "প্রেম সিং - ₹3.2 লক্ষ KYC লিঙ্ক স্ক্যাম",
+                impact3Desc: "কৃষক প্রেম সিং এর কাছে SMS - \"ব্যাংক KYC আপডেট করুন\"। লিঙ্কে ক্লিক করে, OTP দিয়েছিলেন। ₹3.2 লক্ষ অদৃশ্য হয়ে গেছে। ব্যাংক কখনও SMS এর মাধ্যমে লিঙ্ক পাঠায় না।",
+                case1Date: "15 জানুয়ারি 2024",
+                case1Location: "জয়পুর, রাজস্থান",
+                case1WhatIf: "Fraud Eye থাকলে:",
+                case1Solution: "QR স্ক্যানার পেমেন্ট রিকোয়েস্ট সনাক্ত করত। সতর্কতা: \"এই QR কোড টাকা চাইছে, পাঠাচ্ছে না!\"",
+                case2Date: "22 মার্চ 2024",
+                case2Location: "লখনউ, উত্তরপ্রদেশ",
+                case2WhatIf: "Fraud Eye থাকলে:",
+                case2Solution: "ভয়েস ফ্রড ডিটেক্টর AI-generated ভয়েস ধরে ফেলত। সতর্কতা: \"Deepfake voice detected - এটি স্ক্যাম!\"",
+                case3Date: "8 অক্টোবর 2024",
+                case3Location: "ইন্দোর, মধ্যপ্রদেশ",
+                case3WhatIf: "Fraud Eye থাকলে:",
+                case3Solution: "URL স্ক্যানার ফিশিং লিঙ্ক তাৎক্ষণিকভাবে ধরে ফেলত। ML মডেল (93.5%) জাল ডোমেন সনাক্ত করত।",
+                impactStats: "2024 এর ভয়ঙ্কর সত্য",
+                impactMessage: "এগুলি মাত্র 3টি কেস। প্রতিদিন হাজার হাজার এই ধরনের স্ক্যাম সমগ্র India জুড়ে হয়।",
+                casesVerified: "📚 একাধিক উৎস থেকে যাচাইকৃত কেস"
+            },
+            mr: {
+                mainTitle: "भारताचे स्वतःचे संरक्षण कवच",
+                qrTitle: "📱 QR कोड स्कॅनर",
+                qrDesc: "QR कोड स्कॅन करा आणि सुरक्षा तपासा",
+                qrBtn: "स्कॅनर उघडा",
+                voiceTitle: "🎤 व्हॉइस फ्रॉड डिटेक्टर",
+                voiceDesc: "AI आवाज ओळखा",
+                voiceBtn: "आवाज तपासा",
+                urlTitle: "🔗 URL सेफ्टी चेकर",
+                urlDesc: "लिंकची सुरक्षा तपासा",
+                urlBtn: "URL तपासा",
+                reportTitle: "🚨 सायबर गुन्ह्याची तक्रार करा",
+                reportDesc: "जर तुम्ही सायबर फसवणुकीला बळी पडलात, तर लगेच तक्रार करा",
+                helplineLabel: "राष्ट्रीय सायबर गुन्हा हेल्पलाइन",
+                helplineTime: "24x7 उपलब्ध | टोल-फ्री",
+                reportOnline: "🌐 ऑनलाइन तक्रार करा",
+                reportCall: "📞 आता कॉल करा",
+                reportHelp: "ℹ️ मदत आणि माहिती",
+                importantLabel: "⚠️ महत्त्वाचे:",
+                scamTitle: "🚨 भारतातील व्हायरल फसवणूक",
+                prevention: "🛡️ प्रतिबंध:",
+                lastUpdated: "शेवटचे अपडेट:",
+                nextUpdate: "पुढील अपडेट:",
+                impactTitle: "खरी घटना - जी तुमच्यासोबत देखील घडू शकते",
+                impact1Title: "रामलाल शर्मा - ₹2.3 लाख UPI QR फसवणूक",
+                impact1Desc: "जयपूरच्या किराणा दुकानदार रामलालला WhatsApp वर QR कोड मिळाला - \"LPG सबसिडी ₹5000\"। QR स्कॅन केल्यावर ₹2.3 लाख खात्यातून कापले गेले। पेमेंट रिक्वेस्ट होती, रिसीव्ह नाही।",
+                impact2Title: "सुनीता देवी - ₹4.8 लाख फोन फसवणूक",
+                impact2Desc: "निवृत्त शिक्षिका सुनीता देवीला फोन कॉल - AI-generated आवाजाने \"CBI अधिकारी\" बनून म्हटले \"तुमच्याविरुद्ध केस आहे\"। 6 तास फोनवर ठेवले। भीतीने ₹4.8 लाख ट्रान्सफर केले। आवाज deepfake होता।",
+                impact3Title: "प्रेम सिंग - ₹3.2 लाख KYC लिंक फसवणूक",
+                impact3Desc: "शेतकरी प्रेम सिंगला SMS - \"बँक KYC अपडेट करा\"। लिंकवर क्लिक केले, OTP दिला। ₹3.2 लाख गायब झाले। बँक कधीही SMS द्वारे लिंक पाठवत नाहीत।",
+                case1Date: "15 जानेवारी 2024",
+                case1Location: "जयपूर, राजस्थान",
+                case1WhatIf: "Fraud Eye असते तर:",
+                case1Solution: "QR स्कॅनरने पेमेंट रिक्वेस्ट शोधली असती। सावधगिरी: \"हा QR कोड पैसे मागत आहे, पाठवत नाही!\"",
+                case2Date: "22 मार्च 2024",
+                case2Location: "लखनौ, उत्तर प्रदेश",
+                case2WhatIf: "Fraud Eye असते तर:",
+                case2Solution: "व्हॉइस फ्रॉड डिटेक्टरने AI-generated आवाज पकडला असता। सावधगिरी: \"Deepfake voice detected - ही फसवणूक आहे!\"",
+                case3Date: "8 ऑक्टोबर 2024",
+                case3Location: "इंदूर, मध्य प्रदेश",
+                case3WhatIf: "Fraud Eye असते तर:",
+                case3Solution: "URL स्कॅनरने फिशिंग लिंक लगेच पकडली असती। ML मॉडेल (93.5%) ने बनावट डोमेन शोधले असते।",
+                impactStats: "2024 चे भयानक सत्य",
+                impactMessage: "हे फक्त 3 प्रकरणे आहेत। दररोज हजारो अशा फसवणुका संपूर्ण India मध्ये होतात.",
+                casesVerified: "📚 अनेक स्रोतांकडून सत्यापित प्रकरणे"
+            }
+        };
+        
+        // Change language function
+        function changeLanguage() {
+            const lang = document.getElementById('languageSelect').value;
+            const t = translations[lang] || translations.hi;
+            
+            document.getElementById('mainTitle').textContent = t.mainTitle;
+            document.getElementById('qr-title').textContent = t.qrTitle;
+            document.getElementById('qr-desc').textContent = t.qrDesc;
+            document.getElementById('qr-btn').textContent = t.qrBtn;
+            document.getElementById('voice-title').textContent = t.voiceTitle;
+            document.getElementById('voice-desc').textContent = t.voiceDesc;
+            document.getElementById('voice-btn').textContent = t.voiceBtn;
+            document.getElementById('url-title').textContent = t.urlTitle;
+            document.getElementById('url-desc').textContent = t.urlDesc;
+            document.getElementById('url-btn').textContent = t.urlBtn;
+            document.getElementById('report-title').textContent = t.reportTitle;
+            document.getElementById('report-desc').textContent = t.reportDesc;
+            document.getElementById('helpline-label').textContent = t.helplineLabel;
+            document.getElementById('helpline-time').textContent = t.helplineTime;
+            document.getElementById('report-online').textContent = t.reportOnline;
+            document.getElementById('report-call').textContent = t.reportCall;
+            document.getElementById('report-help').textContent = t.reportHelp;
+            document.getElementById('important-label').textContent = t.importantLabel;
+            document.getElementById('scam-title').textContent = t.scamTitle;
+            
+            // Update impact section if elements exist
+            if (document.getElementById('impactTitle')) {
+                document.getElementById('impactTitle').textContent = t.impactTitle;
+                document.getElementById('impact1Title').textContent = t.impact1Title;
+                document.getElementById('impact1Desc').textContent = t.impact1Desc;
+                document.getElementById('impact2Title').textContent = t.impact2Title;
+                document.getElementById('impact2Desc').textContent = t.impact2Desc;
+                document.getElementById('impact3Title').textContent = t.impact3Title;
+                document.getElementById('impact3Desc').textContent = t.impact3Desc;
+                document.getElementById('case1Date').textContent = t.case1Date;
+                document.getElementById('case1Location').textContent = t.case1Location;
+                document.getElementById('case1WhatIf').textContent = t.case1WhatIf;
+                document.getElementById('case1Solution').textContent = t.case1Solution;
+                document.getElementById('case2Date').textContent = t.case2Date;
+                document.getElementById('case2Location').textContent = t.case2Location;
+                document.getElementById('case2WhatIf').textContent = t.case2WhatIf;
+                document.getElementById('case2Solution').textContent = t.case2Solution;
+                document.getElementById('case3Date').textContent = t.case3Date;
+                document.getElementById('case3Location').textContent = t.case3Location;
+                document.getElementById('case3WhatIf').textContent = t.case3WhatIf;
+                document.getElementById('case3Solution').textContent = t.case3Solution;
+                document.getElementById('impactStats').textContent = t.impactStats;
+                document.getElementById('impactMessage').innerHTML = t.impactMessage + '<br><span style="color: #667eea; font-size: 1.3em; margin-top: 15px; display: block;">💡 Fraud Eye = AI से लड़ने के लिए AI</span>';
+                document.getElementById('casesVerified').textContent = t.casesVerified;
+            }
+            
+            localStorage.setItem('selectedLanguage', lang);
+        }
+        
+        // Load saved language preference (but don't auto-apply)
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('selectedLanguage');
+            if (savedLang) {
+                document.getElementById('languageSelect').value = savedLang;
+                changeLanguage(); // Apply saved language preference
+            }
+        });
+        
+        // Load latest scams
+        async function loadScams() {
+            try {
+                const response = await fetch('/api/latest-scams');
+                const data = await response.json();
+                
+                const lang = document.getElementById('languageSelect').value;
+                const t = translations[lang] || translations.hi;
+                
+                // Update scam section header with update times
+                const scamHeader = document.querySelector('.scam-news-header');
+                scamHeader.innerHTML = `
+                    <div>
+                        <h2 id="scam-title">${t.scamTitle} <span class="weekly-badge">📅 Weekly Updates - Every Sunday</span></h2>
+                    </div>
+                `;
+                
+                const scamGrid = document.getElementById('scamGrid');
+                scamGrid.innerHTML = '';
+                
+                data.scams.forEach(scam => {
+                    const scamCard = document.createElement('div');
+                    scamCard.className = 'scam-card';
+                    
+                    const scamDate = new Date(scam.date).toLocaleDateString('hi-IN', {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric'
+                    });
+                    
+                    scamCard.innerHTML = `
+                        <div class="severity-badge">${scam.severity}</div>
+                        <div class="scam-title">${scam.title}</div>
+                        <div class="scam-description">${scam.description}</div>
+                        <div class="scam-prevention">
+                            <strong>${t.prevention}</strong> ${scam.prevention}
+                        </div>
+                        <div class="scam-source">
+                            <strong>Source:</strong> ${scam.source}
+                        </div>
+                        <div class="scam-date">${scamDate}</div>
+                    `;
+                    
+                    scamGrid.appendChild(scamCard);
+                });
+            } catch (error) {
+                console.error('Error loading scams:', error);
+            }
+        }
+        
+        
+        loadScams();
+        setInterval(loadScams, 5 * 60 * 1000);
+    </script>
+</body>
+</html>

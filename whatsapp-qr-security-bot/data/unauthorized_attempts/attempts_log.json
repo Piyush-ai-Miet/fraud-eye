@@ -1,0 +1,88 @@
+[
+  {
+    "timestamp": "2026-02-07T06:22:32.049Z",
+    "photo": "unauthorized_20260207_115232.jpg",
+    "ip_address": "127.0.0.1",
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36"
+  },
+  {
+    "timestamp": "2026-02-07T08:14:08.237Z",
+    "photo": "unauthorized_20260207_134408.jpg",
+    "ip_address": "127.0.0.1",
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",
+    "device_info": {
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",
+      "platform": "MacIntel",
+      "language": "en-GB",
+      "screenResolution": "1440x900",
+      "colorDepth": 24,
+      "timezone": "Asia/Calcutta",
+      "cookieEnabled": true,
+      "onLine": true
+    },
+    "total_attempts": 5,
+    "status": "BLOCKED",
+    "severity": "HIGH",
+    "action_taken": "Photo captured, device info logged, access denied, session terminated"
+  },
+  {
+    "timestamp": "2026-02-07T08:29:46.374Z",
+    "photo": "unauthorized_20260207_135946.jpg",
+    "ip_address": "127.0.0.1",
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",
+    "device_info": {
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",
+      "platform": "MacIntel",
+      "language": "en-GB",
+      "screenResolution": "1440x900",
+      "colorDepth": 24,
+      "timezone": "Asia/Calcutta",
+      "cookieEnabled": true,
+      "onLine": true
+    },
+    "total_attempts": 5,
+    "status": "BLOCKED",
+    "severity": "HIGH",
+    "action_taken": "Photo captured, device info logged, access denied, session terminated"
+  },
+  {
+    "timestamp": "2026-02-07T15:40:48.588Z",
+    "photo": "unauthorized_20260207_211048.jpg",
+    "ip_address": "127.0.0.1",
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",
+    "device_info": {
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",
+      "platform": "MacIntel",
+      "language": "en-GB",
+      "screenResolution": "1440x900",
+      "colorDepth": 24,
+      "timezone": "Asia/Calcutta",
+      "cookieEnabled": true,
+      "onLine": true
+    },
+    "total_attempts": 5,
+    "status": "BLOCKED",
+    "severity": "HIGH",
+    "action_taken": "Photo captured, device info logged, access denied, session terminated"
+  },
+  {
+    "timestamp": "2026-02-07T15:41:34.879Z",
+    "photo": "unauthorized_20260207_211134.jpg",
+    "ip_address": "127.0.0.1",
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",
+    "device_info": {
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",
+      "platform": "MacIntel",
+      "language": "en-GB",
+      "screenResolution": "1440x900",
+      "colorDepth": 24,
+      "timezone": "Asia/Calcutta",
+      "cookieEnabled": true,
+      "onLine": true
+    },
+    "total_attempts": 5,
+    "status": "BLOCKED",
+    "severity": "HIGH",
+    "action_taken": "Photo captured, device info logged, access denied, session terminated"
+  }
+]

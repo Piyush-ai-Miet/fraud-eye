@@ -1,0 +1,48 @@
+# Sensitive Data - NEVER COMMIT
+whatsapp-qr-security-bot/data/admin_faces/
+whatsapp-qr-security-bot/data/admin_credentials.json
+whatsapp-qr-security-bot/data/admin_face_data.json
+whatsapp-qr-security-bot/data/admin_sessions.json
+whatsapp-qr-security-bot/data/unauthorized_attempts/
+whatsapp-qr-security-bot/data/scan_history.json
+
+# Environment Variables
+.env
+*.env
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Large Datasets (auto-download from Kaggle)
+whatsapp-qr-security-bot/data/kaggle_balanced_urls.csv
+whatsapp-qr-security-bot/data/kaggle_malicious_urls.csv
+
+# Audio Files (too large)
+whatsapp-qr-security-bot/data/audio/fake/*.wav
+whatsapp-qr-security-bot/data/audio/real/*.wav
+!whatsapp-qr-security-bot/data/audio/fake/Elevanlabs_Fake.wav
+!whatsapp-qr-security-bot/data/audio/real/real_audio.flac
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Archives
+_archive/
+*.zip
+cleanup_script.sh
+fraud-eye.zip
+
+# Logs
+*.log

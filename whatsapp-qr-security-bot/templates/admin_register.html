@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Registration - Fraud Eye</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .register-box {
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            transform: scale(1.02);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .status {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status.info {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        #step2 {
+            display: none;
+        }
+        
+        video {
+            width: 100%;
+            border-radius: 15px;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .angle-guide {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .angle-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .angle-btn {
+            padding: 15px;
+            background: #f0f0f0;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .angle-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .angle-btn.completed {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+        
+        .angle-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .progress {
+            text-align: center;
+            font-size: 1.2em;
+            color: #667eea;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-box">
+        <h1>🛡️ Admin Registration</h1>
+        <p class="subtitle">Multi-Angle Face Setup for Better Security</p>
+        
+        <div id="status" class="status"></div>
+        
+        <!-- STEP 1: Username & Password -->
+        <div id="step1">
+            <div class="form-group">
+                <label>👤 Username</label>
+                <input type="text" id="username" placeholder="Enter username" value="piyush69">
+            </div>
+            
+            <div class="form-group">
+                <label>🔒 Password</label>
+                <input type="password" id="password" placeholder="Enter password">
+            </div>
+            
+            <button class="btn" onclick="startFaceSetup()">Next: Face Setup →</button>
+        </div>
+        
+        <!-- STEP 2: Multi-Angle Face Capture -->
+        <div id="step2">
+            <div class="progress" id="progress">Step 1/5: Center Face</div>
+            
+            <video id="webcam" autoplay playsinline></video>
+            
+            <div class="angle-guide" id="angleGuide">
+                <h3>📸 Look straight at the camera</h3>
+                <p>Position your face in the center</p>
+            </div>
+            
+            <div class="angle-buttons">
+                <div class="angle-btn" id="btn-center">Center</div>
+                <div class="angle-btn" id="btn-left">Left</div>
+                <div class="angle-btn" id="btn-right">Right</div>
+                <div class="angle-btn" id="btn-up">Up</div>
+            </div>
+            
+            <button class="btn" id="startCameraBtn" onclick="startCamera()">📷 Start Camera</button>
+            <button class="btn" id="captureBtn" onclick="captureAngle()" style="display:none;">✅ Capture This Angle</button>
+            <button class="btn" onclick="goBack()" style="background:#6c757d; margin-top:10px;">← Back</button>
+        </div>
+    </div>
+    
+    <script>
+        let username = '';
+        let password = '';
+        let stream = null;
+        let video = null;
+        let currentAngle = 'center';
+        let completedAngles = [];
+        const angles = ['center', 'left', 'right', 'up'];
+        const angleGuides = {
+            'center': { title: '📸 Look straight at the camera', desc: 'Position your face in the center' },
+            'left': { title: '👈 Turn your face to the LEFT', desc: 'Show your left profile' },
+            'right': { title: '👉 Turn your face to the RIGHT', desc: 'Show your right profile' },
+            'up': { title: '👆 Tilt your face UP', desc: 'Look slightly upward' }
+        };
+        
+        function showStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `status ${type}`;
+            status.style.display = 'block';
+        }
+        
+        function hideStatus() {
+            document.getElementById('status').style.display = 'none';
+        }
+        
+        function updateProgress() {
+            const step = completedAngles.length + 1;
+            document.getElementById('progress').textContent = `Step ${step}/4: ${currentAngle.charAt(0).toUpperCase() + currentAngle.slice(1)} Face`;
+            
+            // Update angle buttons
+            angles.forEach(angle => {
+                const btn = document.getElementById(`btn-${angle}`);
+                if (completedAngles.includes(angle)) {
+                    btn.className = 'angle-btn completed';
+                } else if (angle === currentAngle) {
+                    btn.className = 'angle-btn active';
+                } else {
+                    btn.className = 'angle-btn';
+                }
+            });
+            
+            // Update guide
+            const guide = angleGuides[currentAngle];
+            document.getElementById('angleGuide').innerHTML = `
+                <h3>${guide.title}</h3>
+                <p>${guide.desc}</p>
+            `;
+        }
+        
+        function startFaceSetup() {
+            username = document.getElementById('username').value;
+            password = document.getElementById('password').value;
+            
+            if (!username || !password) {
+                showStatus('❌ Please enter username and password', 'error');
+                return;
+            }
+            
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+            updateProgress();
+            hideStatus();
+        }
+        
+        function goBack() {
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step1').style.display = 'block';
+            
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            
+            document.getElementById('webcam').style.display = 'none';
+            document.getElementById('startCameraBtn').style.display = 'block';
+            document.getElementById('captureBtn').style.display = 'none';
+            hideStatus();
+        }
+        
+        async function startCamera() {
+            try {
+                showStatus('📸 Starting camera...', 'info');
+                
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        width: { ideal: 640 },
+                        height: { ideal: 480 },
+                        facingMode: 'user'
+                    } 
+                });
+                
+                video = document.getElementById('webcam');
+                video.srcObject = stream;
+                video.style.display = 'block';
+                
+                document.getElementById('startCameraBtn').style.display = 'none';
+                document.getElementById('captureBtn').style.display = 'block';
+                
+                showStatus('👤 Position your face as instructed', 'info');
+            } catch (error) {
+                showStatus('❌ Camera access denied', 'error');
+            }
+        }
+        
+        async function captureAngle() {
+            showStatus(`📸 Capturing ${currentAngle} angle...`, 'info');
+            document.getElementById('captureBtn').disabled = true;
+            
+            try {
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.95));
+                
+                const formData = new FormData();
+                formData.append('face_image', blob, `face_${currentAngle}.jpg`);
+                formData.append('username', username);
+                formData.append('password', password);
+                formData.append('angle', currentAngle);
+                
+                const response = await fetch('/api/admin/register', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    completedAngles.push(currentAngle);
+                    showStatus(`✅ ${currentAngle.toUpperCase()} angle captured!`, 'success');
+                    
+                    // Move to next angle
+                    if (result.all_registered) {
+                        showStatus('🎉 All angles captured! Redirecting to login...', 'success');
+                        
+                        if (stream) {
+                            stream.getTracks().forEach(track => track.stop());
+                        }
+                        
+                        setTimeout(() => {
+                            window.location.href = '/admin/login';
+                        }, 2000);
+                    } else {
+                        // Find next uncompleted angle
+                        currentAngle = angles.find(a => !completedAngles.includes(a));
+                        updateProgress();
+                        document.getElementById('captureBtn').disabled = false;
+                    }
+                } else {
+                    showStatus('❌ ' + result.message, 'error');
+                    document.getElementById('captureBtn').disabled = false;
+                }
+            } catch (error) {
+                showStatus('❌ Error: ' + error.message, 'error');
+                document.getElementById('captureBtn').disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

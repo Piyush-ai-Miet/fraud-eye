@@ -1,0 +1,50 @@
+# Indian Banking Scams
+sbi-verify
+hdfc-alert
+icici-update
+axis-confirm
+pnb-kyc
+bob-account
+kotak-secure
+yes-bank-alert
+
+# UPI Scams
+paytm-verify
+phonepe-confirm
+googlepay-update
+bhim-upi-verify
+upi-refund
+upi-cashback
+
+# Government Scams
+pm-kisan-verify
+ayushman-bharat-register
+ration-card-update
+aadhar-verify
+pan-update
+voter-id-confirm
+gas-subsidy-claim
+scholarship-verify
+
+# E-commerce Scams
+flipkart-prize
+amazon-winner
+myntra-cashback
+snapdeal-refund
+meesho-verify
+
+# Telecom Scams
+jio-recharge
+airtel-offer
+vi-cashback
+bsnl-verify
+
+# Common Hindi/Hinglish Scams
+khata-band
+account-suspend
+turant-verify
+abhi-update
+zaruri-action
+dhyan-de
+savdhan
+khatre-mein

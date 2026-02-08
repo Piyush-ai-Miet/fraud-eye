@@ -1,0 +1,564 @@
+
+================================================================================
+🧪 Testing Kaggle Malicious URLs Dataset
+================================================================================
+Server: http://localhost:5001
+Testing first 50 URLs from dataset
+================================================================================
+
+📂 Loading URLs from Kaggle dataset...
+✅ Loaded 50 URLs
+
+📊 Dataset Breakdown:
+   benign: 34
+   defacement: 11
+   malware: 1
+   phishing: 4
+
+🔍 Testing URLs...
+================================================================================
+
+[1/50] Testing: http://br-icloud.com.br...
+   Actual Type: phishing
+   Detected Risk: LOW
+   Detected Safe: True
+   ❌ FALSE NEGATIVE (Missed malicious URL!)
+   Warnings: 6
+      - ✅ Safe website
+      - 🌐 Domain: ww17.br-icloud.com.br
+      - 📍 IP: 199.191.50.190
+
+[2/50] Testing: http://mp3raid.com/music/krizz_kaliko.html...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 6
+      - ✅ Safe website
+      - 🌐 Domain: mp3raid.com
+      - 📍 IP: 15.197.225.128
+
+[3/50] Testing: http://bopsecrets.org/rexroth/cr/1.htm...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 6
+      - ✅ Safe website
+      - 🌐 Domain: bopsecrets.org
+      - 📍 IP: 208.42.238.172
+
+[4/50] Testing: http://www.garage-pirenne.be/index.php?option=com_content&vi...
+   Actual Type: defacement
+   Detected Risk: LOW
+   Detected Safe: True
+   ❌ FALSE NEGATIVE (Missed malicious URL!)
+   Warnings: 7
+      - ✅ Safe website
+      - 🌐 Domain: ww17.garage-pirenne.be
+      - 📍 IP: 199.191.50.190
+
+[5/50] Testing: http://adventure-nicaragua.net/index.php?option=com_mailto&t...
+   Actual Type: defacement
+   Detected Risk: LOW
+   Detected Safe: True
+   ❌ FALSE NEGATIVE (Missed malicious URL!)
+   Warnings: 5
+      - ✅ Safe website
+      - 🌐 Domain: 26l.cashflow-elite.lat
+      - 📍 IP: 2606:4700:3035::6815:5850
+
+[6/50] Testing: http://buzzfil.net/m/show-art/ils-etaient-loin-de-s-imaginer...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 5
+      - ✅ Safe website
+      - 🌐 Domain: buzzfil.net
+      - 📍 IP: 104.21.61.46
+
+[7/50] Testing: http://espn.go.com/nba/player/_/id/3457/brandon-rush...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 6
+      - ✅ Safe website
+      - 🌐 Domain: ballin4peace.org
+      - 📍 IP: 23.227.38.65
+
+[8/50] Testing: http://yourbittorrent.com/?q=anthony-hamilton-soulife...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 5
+      - ✅ Safe website
+      - 🌐 Domain: yourbittorrent.com
+      - 📍 IP: 188.114.96.3
+
+[9/50] Testing: http://www.pashminaonline.com/pure-pashminas...
+   Actual Type: defacement
+   Detected Risk: LOW
+   Detected Safe: True
+   ❌ FALSE NEGATIVE (Missed malicious URL!)
+   Warnings: 3
+      - ✅ Safe website
+      - 🌐 Domain: www.pashminaonline.com
+      - 🔓 No HTTPS - Data encrypted nahi hai
+
+[10/50] Testing: http://allmusic.com/album/crazy-from-the-heat-r16990...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 6
+      - ✅ Safe website
+      - 🌐 Domain: url2737.news.allmusic.com
+      - 📍 IP: 18.158.228.216
+
+[11/50] Testing: http://corporationwiki.com/Ohio/Columbus/frank-s-benson-P333...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 5
+      - ✅ Safe website
+      - 🌐 Domain: www.corporationwiki.com
+      - 📍 IP: 104.26.0.160
+
+[12/50] Testing: http://www.ikenmijnkunst.nl/index.php/exposities/exposities-...
+   Actual Type: defacement
+   Detected Risk: LOW
+   Detected Safe: True
+   ❌ FALSE NEGATIVE (Missed malicious URL!)
+   Warnings: 1
+      - 🔓 No HTTPS - Data encrypted nahi hai
+
+[13/50] Testing: http://myspace.com/video/vid/30602581...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 5
+      - ✅ Safe website
+      - 🌐 Domain: joyjak.st
+      - 📍 IP: 104.21.50.139
+
+[14/50] Testing: http://www.lebensmittel-ueberwachung.de/index.php/aktuelles....
+   Actual Type: defacement
+   Detected Risk: LOW
+   Detected Safe: True
+   ❌ FALSE NEGATIVE (Missed malicious URL!)
+   Warnings: 1
+      - 🔓 No HTTPS - Data encrypted nahi hai
+
+[15/50] Testing: http://www.szabadmunkaero.hu/cimoldal.html?start=12...
+   Actual Type: defacement
+   Detected Risk: LOW
+   Detected Safe: True
+   ❌ FALSE NEGATIVE (Missed malicious URL!)
+   Warnings: 6
+      - ✅ Safe website
+      - 🌐 Domain: www.szabadmunkaero.hu
+      - 📍 IP: 213.16.88.7
+
+[16/50] Testing: http://larcadelcarnevale.com/catalogo/palloncini...
+   Actual Type: defacement
+   Detected Risk: LOW
+   Detected Safe: True
+   ❌ FALSE NEGATIVE (Missed malicious URL!)
+   Warnings: 6
+      - ✅ Safe website
+      - 🌐 Domain: larcadelcarnevale.com
+      - 📍 IP: 208.91.197.46
+
+[17/50] Testing: http://quickfacts.census.gov/qfd/maps/iowa_map.html...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 3
+      - ✅ Safe website
+      - 🌐 Domain: quickfacts.census.gov
+      - 🔓 No HTTPS - Data encrypted nahi hai
+
+[18/50] Testing: http://nugget.ca/ArticleDisplay.aspx?archive=true&e=1160966...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 6
+      - ✅ Safe website
+      - 🌐 Domain: www.nugget.ca
+      - 📍 IP: 34.117.147.204
+
+[19/50] Testing: http://uk.linkedin.com/pub/steve-rubenstein/8/718/755...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 5
+      - ✅ Safe website
+      - 🌐 Domain: uk.linkedin.com
+      - 📍 IP: 2620:1ec:46::45
+
+[20/50] Testing: http://www.vnic.co/khach-hang.html...
+   Actual Type: defacement
+   Detected Risk: LOW
+   Detected Safe: True
+   ❌ FALSE NEGATIVE (Missed malicious URL!)
+   Warnings: 3
+      - ✅ Safe website
+      - 🌐 Domain: www.vnic.co
+      - 🔓 No HTTPS - Data encrypted nahi hai
+
+[21/50] Testing: http://baseball-reference.com/players/h/harrige01.shtml...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 5
+      - ✅ Safe website
+      - 🌐 Domain: www.baseball-reference.com
+      - 📍 IP: 104.18.22.245
+
+[22/50] Testing: http://signin.eby.de.zukruygxctzmmqi.civpro.co.za...
+   Actual Type: phishing
+   Detected Risk: LOW
+   Detected Safe: True
+   ❌ FALSE NEGATIVE (Missed malicious URL!)
+   Warnings: 3
+      - ✅ Safe website
+      - 🌐 Domain: ubereats-eu.short.gy
+      - 🔓 No HTTPS - Data encrypted nahi hai
+
+[23/50] Testing: http://192.com/atoz/people/oakley/patrick/...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 5
+      - ✅ Safe website
+      - 🌐 Domain: www.192.com
+      - 📍 IP: 104.20.22.17
+
+[24/50] Testing: http://nytimes.com/1998/03/29/style/cuttings-oh-that-brazen-...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 5
+      - ✅ Safe website
+      - 🌐 Domain: joyjak.st
+      - 📍 IP: 104.21.50.139
+
+[25/50] Testing: http://escholarship.org/uc/item/5xt4952c...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 6
+      - ✅ Safe website
+      - 🌐 Domain: escholarship.org
+      - 📍 IP: 13.33.252.37
+
+[26/50] Testing: http://songfacts.com/detail.php?id=13410...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 6
+      - ✅ Safe website
+      - 🌐 Domain: www.songfacts.com
+      - 📍 IP: 192.154.241.220
+
+[27/50] Testing: http://casamanana.org/education/blba/...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 5
+      - ✅ Safe website
+      - 🌐 Domain: casamanana.org
+      - 📍 IP: 162.159.135.42
+
+[28/50] Testing: http://hollywoodlife.com/2014/05/01/rihanna-iheartradio-musi...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 5
+      - ✅ Safe website
+      - 🌐 Domain: christina-applegate-height-and-weight.pages.dev
+      - 📍 IP: 172.66.47.138
+
+[29/50] Testing: http://www.marketingbyinternet.com/mo/e56508df639f6ce7d55c81...
+   Actual Type: phishing
+   Detected Risk: LOW
+   Detected Safe: True
+   ❌ FALSE NEGATIVE (Missed malicious URL!)
+   Warnings: 5
+      - ✅ Safe website
+      - 🌐 Domain: ww1.marketingbyinternet.com
+      - 📍 IP: 199.59.243.228
+
+[30/50] Testing: http://en.wikipedia.org/wiki/North_Dakota...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 5
+      - ✅ Safe website
+      - 🌐 Domain: joyjak.st
+      - 📍 IP: 104.21.50.139
+
+[31/50] Testing: http://soaps.sheknows.com/daysofourlives/news/id/20259/Days_...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 6
+      - ✅ Safe website
+      - 🌐 Domain: soaps.sheknows.com
+      - 📍 IP: 151.101.2.217
+
+[32/50] Testing: http://perfectpeople.net/celebrity-star/6920/gidget-gein.htm...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 5
+      - ✅ Safe website
+      - 🌐 Domain: ww7.perfectpeople.net
+      - 📍 IP: 199.59.243.228
+
+[33/50] Testing: http://media.caltech.edu/press_releases/13186...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 5
+      - ✅ Safe website
+      - 🌐 Domain: www.caltech.edu
+      - 📍 IP: 104.18.36.35
+
+[34/50] Testing: http://wikiobits.com/Obits/TonyProudfoot...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 3
+      - ✅ Safe website
+      - 🌐 Domain: www.wikiobits.com
+      - 🔓 No HTTPS - Data encrypted nahi hai
+
+[35/50] Testing: http://vanderbilt.rivals.com/viewcoach.asp?coach=2079&sport=...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 6
+      - ✅ Safe website
+      - 🌐 Domain: vanderbilt.rivals.com
+      - 📍 IP: 2600:9000:25e8:9000:9:617f:eac0:93a1
+
+[36/50] Testing: http://peluqueriadeautor.com/index.php?option=com_virtuemart...
+   Actual Type: defacement
+   Detected Risk: LOW
+   Detected Safe: True
+   ❌ FALSE NEGATIVE (Missed malicious URL!)
+   Warnings: 6
+      - ✅ Safe website
+      - 🌐 Domain: peluqueriadeautor.com
+      - 📍 IP: 2a01:a940:419:99::1000
+
+[37/50] Testing: http://movies.yahoo.com/shop?d=hv&cf=info&id=1800340831...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 6
+      - ✅ Safe website
+      - 🌐 Domain: www.yahoo.com
+      - 📍 IP: 69.147.92.12
+
+[38/50] Testing: http://cyndislist.com/us/pa/counties...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 5
+      - ✅ Safe website
+      - 🌐 Domain: www.cyndislist.com
+      - 📍 IP: 104.26.9.18
+
+[39/50] Testing: http://www.824555.com/app/member/SportOption.php?uid=guest&l...
+   Actual Type: malware
+   Detected Risk: LOW
+   Detected Safe: True
+   ❌ FALSE NEGATIVE (Missed malicious URL!)
+   Warnings: 3
+      - ✅ Safe website
+      - 🌐 Domain: www.824555.com
+      - 🔓 No HTTPS - Data encrypted nahi hai
+
+[40/50] Testing: http://www.raci.it/component/user/reset.html...
+   Actual Type: defacement
+   Detected Risk: LOW
+   Detected Safe: True
+   ❌ FALSE NEGATIVE (Missed malicious URL!)
+   Warnings: 6
+      - ✅ Safe website
+      - 🌐 Domain: www.raci.it
+      - 📍 IP: 93.191.242.26
+
+[41/50] Testing: https://docs.google.com/spreadsheet/viewform?formkey=dGg2Z1l...
+   Actual Type: phishing
+   Detected Risk: LOW
+   Detected Safe: True
+   ❌ FALSE NEGATIVE (Missed malicious URL!)
+   Warnings: 5
+      - ✅ Safe website
+      - 🌐 Domain: docs.google.com
+      - 📍 IP: 172.217.16.174
+
+[42/50] Testing: http://psychology.wikia.com/wiki/Phonemes...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 5
+      - ✅ Safe website
+      - 🌐 Domain: psychology.wikia.com
+      - 📍 IP: 151.101.64.194
+
+[43/50] Testing: http://info.centriq.com/content/fivereasons...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 1
+      - 🔓 No HTTPS - Data encrypted nahi hai
+
+[44/50] Testing: http://articles.baltimoresun.com/1991-06-11/sports/199116216...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 6
+      - ✅ Safe website
+      - 🌐 Domain: articles.baltimoresun.com
+      - 📍 IP: 54.189.202.149
+
+[45/50] Testing: http://infinitysw.com/...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 6
+      - ✅ Safe website
+      - 🌐 Domain: power.one
+      - 📍 IP: 45.79.95.223
+
+[46/50] Testing: http://strawberrycreekgardens.com/...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 1
+      - 🔓 No HTTPS - Data encrypted nahi hai
+
+[47/50] Testing: http://earth-sure.com/industrial-tech/everlast-impact-resist...
+   Actual Type: defacement
+   Detected Risk: LOW
+   Detected Safe: True
+   ❌ FALSE NEGATIVE (Missed malicious URL!)
+   Warnings: 6
+      - ✅ Safe website
+      - 🌐 Domain: earth-sure.com
+      - 📍 IP: 129.121.5.250
+
+[48/50] Testing: http://spoke.com/dir/p/desantis/nick...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 6
+      - ✅ Safe website
+      - 🌐 Domain: paytop4clunkers.com
+      - 📍 IP: 173.254.28.219
+
+[49/50] Testing: http://wordsmith.org/words/pignus.html...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 5
+      - ✅ Safe website
+      - 🌐 Domain: ua826808.serversignin.com
+      - 📍 IP: 192.99.207.157
+
+[50/50] Testing: http://interpark.com/displaycorner/FreeMarket.do?_method=ite...
+   Actual Type: benign
+   Detected Risk: LOW
+   Detected Safe: True
+   ✅ CORRECT
+   Warnings: 6
+      - ✅ Safe website
+      - 🌐 Domain: web10-beastcamp.vercel.app
+      - 📍 IP: 64.29.17.131
+
+================================================================================
+📊 RESULTS SUMMARY
+================================================================================
+
+✅ Total URLs Tested: 50
+✅ Correctly Identified: 34
+❌ Incorrectly Identified: 16
+
+📈 Accuracy: 68.0%
+
+🔍 Error Analysis:
+   False Positives (Benign → Malicious): 0
+   False Negatives (Malicious → Benign): 16
+
+📊 Accuracy by URL Type:
+   benign: 34/34 (100.0%)
+   defacement: 0/11 (0.0%)
+   malware: 0/1 (0.0%)
+   phishing: 0/4 (0.0%)
+
+⚠️ FALSE NEGATIVES (Malicious URLs we MISSED):
+
+   1. http://br-icloud.com.br
+      Type: phishing
+      Detected as: LOW (Safe: True)
+
+   2. http://www.garage-pirenne.be/index.php?option=com_content&view=article
+      Type: defacement
+      Detected as: LOW (Safe: True)
+
+   3. http://adventure-nicaragua.net/index.php?option=com_mailto&tmpl=compon
+      Type: defacement
+      Detected as: LOW (Safe: True)
+
+   4. http://www.pashminaonline.com/pure-pashminas
+      Type: defacement
+      Detected as: LOW (Safe: True)
+
+   5. http://www.ikenmijnkunst.nl/index.php/exposities/exposities-2006
+      Type: defacement
+      Detected as: LOW (Safe: True)
+
+================================================================================
+✅ Test Complete!
+================================================================================
+
+⚠️ FAIR! System needs improvement.
+
+💡 Note: False negatives are more critical than false positives
+   (Missing malicious URLs is worse than flagging benign ones)
+================================================================================
+

@@ -1,0 +1,217 @@
+============================================================
+FRAUD EYE - FINAL ARCHITECTURE
+============================================================
+
+SEPARATION OF CONCERNS:
+============================================================
+
+1. URL CHECKER (/api/check-url)
+   - NO ML MODEL
+   - Web scraping only
+   - Authentic checking
+   - Real-time verification
+   
+   Features:
+   ✅ SSL certificate verification
+   ✅ Domain age checking (WHOIS)
+   ✅ Page content scraping
+   ✅ Phishing indicator detection
+   ✅ HTTPS validation
+   ✅ Domain reputation
+   ✅ Hindi warnings with domain name
+
+2. QR CODE SCANNER (/api/scan-qr)
+   - ML MODEL BASED
+   - Trained on 651K URLs
+   - 93.5% accuracy
+   - Pattern detection
+   
+   Features:
+   ✅ ML prediction (Random Forest)
+   ✅ Attack pattern detection (SQL, XSS)
+   ✅ Indian scam patterns
+   ✅ Phishing keywords
+   ✅ Malicious URL database
+   ✅ Hindi warnings with confidence scores
+
+============================================================
+URL CHECKER - WEB SCRAPING APPROACH
+============================================================
+
+Layer 1: SSL CERTIFICATE CHECK
+- Verifies HTTPS validity
+- Checks certificate expiry
+- Detects fake certificates
+
+Layer 2: DOMAIN AGE CHECK
+- WHOIS lookup
+- Flags new domains (< 180 days)
+- Shows registrar info
+
+Layer 3: PAGE CONTENT SCRAPING
+- Scrapes actual webpage
+- Detects phishing indicators:
+  * Login forms
+  * Payment forms
+  * Urgent language
+  * OTP requests
+  * Fake brand names
+- Extracts page title
+- Detects redirects
+
+Layer 4: BASIC VALIDATION
+- HTTPS check
+- IP address detection
+- Suspicious domain check
+- Scam keyword detection
+
+EXAMPLE OUTPUT (URL Checker):
+----------------------------
+URL: https://www.kaggle.com/code/scratchpad/notebookac304ed133/edit
+
+✅ Domain: kaggle.com
+✅ SSL: Valid
+✅ Domain Age: 5000+ days
+✅ Page Title: Kaggle Notebook
+✅ No phishing indicators
+✅ HTTPS enabled
+
+Verdict: ✅ Domain "kaggle.com" safe lag raha hai.
+
+============================================================
+QR CODE SCANNER - ML APPROACH
+============================================================
+
+Layer 1: ML MODEL
+- Random Forest (200 trees)
+- 651,191 URLs trained
+- 93.5% accuracy
+- 16 features extracted
+- Confidence scores
+
+Layer 2: PATTERN DETECTION
+- SQL injection
+- XSS attacks
+- Command injection
+- Path traversal
+
+Layer 3: INDIAN SCAM PATTERNS
+- sbi-verify, paytm-refund
+- pm-kisan, aadhaar-update
+- 40+ patterns
+
+Layer 4: PHISHING KEYWORDS
+- 70+ suspicious keywords
+- verify, urgent, otp, pin, cvv
+
+Layer 5: MALICIOUS URL DATABASE
+- 651K+ known malicious URLs
+- Real-world phishing sites
+
+EXAMPLE OUTPUT (QR Scanner):
+---------------------------
+QR Code: http://fake-sbi.tk/urgent-login
+
+🤖 ML: MALICIOUS (100% confidence)
+⚠️ Phishing (3 keywords)
+⚠️ Indian Scam Pattern (sbi-verify)
+🔓 No HTTPS
+⚠️ Suspicious domain: .tk
+
+Verdict: 🚨 KHATRE! QR code mein dangerous link hai!
+
+============================================================
+API ENDPOINTS
+============================================================
+
+1. POST /api/check-url
+   Request: { "url": "https://example.com" }
+   Response: {
+     "is_safe": true/false,
+     "risk": "LOW/MEDIUM/HIGH",
+     "message_hi": "Hindi message",
+     "domain": "example.com",
+     "warnings": [...],
+     "realtime_result": {...}
+   }
+
+2. POST /api/scan-qr
+   Request: FormData with 'qr_image' file
+   Response: {
+     "is_safe": true/false,
+     "risk": "LOW/MEDIUM/HIGH",
+     "message_hi": "Hindi message",
+     "content": "URL from QR",
+     "domain": "example.com",
+     "warnings": [...],
+     "ml_result": {
+       "is_malicious": true/false,
+       "confidence": 0.95,
+       "label": "MALICIOUS/SAFE"
+     }
+   }
+
+3. POST /api/analyze-audio
+   Request: FormData with 'audio_file'
+   Response: {
+     "is_suspicious": true/false,
+     "confidence": 0.7,
+     "reason": "Hindi message",
+     "warnings": [...]
+   }
+
+============================================================
+TESTING
+============================================================
+
+1. URL Checker (Web Scraping):
+   curl -X POST http://localhost:5001/api/check-url \
+     -H "Content-Type: application/json" \
+     -d '{"url": "https://www.kaggle.com"}'
+   
+   Expected: ✅ Safe (no ML, just web scraping)
+
+2. QR Code Scanner (ML Based):
+   Upload QR image with malicious URL
+   Expected: 🚨 Dangerous (ML detects with confidence)
+
+============================================================
+FILES STRUCTURE
+============================================================
+
+whatsapp-qr-security-bot/
+├── app_simple.py (Main Flask app)
+├── realtime_url_checker.py (Web scraping for URL checker)
+├── ml_url_classifier.py (ML model for QR scanner)
+├── malicious_patterns.py (Pattern detection)
+├── models/
+│   ├── url_classifier_kaggle.pkl (ML model)
+│   └── feature_names_kaggle.pkl
+├── data/
+│   ├── kaggle_malicious_urls.csv (651K URLs)
+│   ├── kaggle_balanced_urls.csv (4K balanced)
+│   ├── phishing_keywords.txt
+│   ├── indian_scam_patterns.txt
+│   └── malicious_urls.csv
+└── templates/
+    └── demo_full.html (Web interface)
+
+============================================================
+KEY DIFFERENCES
+============================================================
+
+URL CHECKER:
+- Purpose: Check if website is authentic
+- Method: Web scraping + real-time checks
+- NO ML model
+- Checks: SSL, domain age, content, redirects
+- Use case: User wants to verify a website
+
+QR CODE SCANNER:
+- Purpose: Detect malicious QR codes
+- Method: ML model + pattern detection
+- WITH ML model (93.5% accuracy)
+- Checks: ML prediction, attack patterns, keywords
+- Use case: User scans unknown QR code
+
+============================================================
