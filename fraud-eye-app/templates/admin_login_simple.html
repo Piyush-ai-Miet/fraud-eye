@@ -331,6 +331,13 @@
         
         async function startCamera() {
             try {
+                // Check if getUserMedia is available
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    showStatus('❌ Camera not supported. Please use HTTPS or modern browser.', 'error');
+                    speakAlert('Camera not supported. Please use a modern browser with HTTPS.', 'en-US');
+                    return;
+                }
+                
                 showStatus('📸 Starting camera...', 'info');
                 
                 stream = await navigator.mediaDevices.getUserMedia({ 
@@ -350,7 +357,31 @@
                 
                 showStatus('👤 Position your face clearly', 'info');
             } catch (error) {
-                showStatus('❌ Camera access denied', 'error');
+                console.error('Camera error:', error);
+                
+                // Better error messages
+                let errorMsg = '❌ Camera access denied. ';
+                let voiceMsg = 'Camera access denied. ';
+                
+                if (error.name === 'NotAllowedError') {
+                    errorMsg += 'Please click "Allow" when browser asks for camera permission.';
+                    voiceMsg += 'Please allow camera permission in your browser.';
+                } else if (error.name === 'NotFoundError') {
+                    errorMsg += 'No camera found on this device.';
+                    voiceMsg += 'No camera found on this device.';
+                } else if (error.name === 'NotReadableError') {
+                    errorMsg += 'Camera is being used by another application.';
+                    voiceMsg += 'Camera is being used by another application. Please close other apps.';
+                } else if (error.name === 'SecurityError') {
+                    errorMsg += 'Camera access requires HTTPS connection.';
+                    voiceMsg += 'Camera access requires secure HTTPS connection.';
+                } else {
+                    errorMsg += 'Please check browser settings and allow camera access.';
+                    voiceMsg += 'Please check browser settings and allow camera access.';
+                }
+                
+                showStatus(errorMsg, 'error');
+                speakAlert(voiceMsg, 'en-US');
             }
         }
         

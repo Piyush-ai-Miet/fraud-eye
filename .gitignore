@@ -49,6 +49,7 @@ fraud-eye-app/data/audio/real/*.wav
 fraud-eye-app/*.md
 !fraud-eye-app/README.md
 fraud-eye-app/*.txt
+!fraud-eye-app/requirements.txt
 
 # Test Files (30+ files)
 fraud-eye-app/test_*.py

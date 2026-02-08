@@ -822,6 +822,70 @@ def scan_qr():
 def health():
     return jsonify({'status': 'ok', 'message': 'Fraud Eye is running!'})
 
+@app.route('/api/system-status')
+def system_status():
+    """Diagnostic endpoint to check what's loaded on Render"""
+    import os
+    
+    status = {
+        'server': 'running',
+        'working_directory': os.getcwd(),
+        'modules': {
+            'scan_logger': SCAN_LOGGER_AVAILABLE,
+            'face_auth': FACE_AUTH_AVAILABLE,
+            'two_step_auth': TWO_STEP_AUTH_AVAILABLE,
+            'qr_scanning': QR_SCANNING_AVAILABLE,
+            'pattern_detection': PATTERN_DETECTION_AVAILABLE,
+            'ml_classifier': ML_CLASSIFIER_AVAILABLE,
+            'realtime_checker': REALTIME_CHECKER_AVAILABLE,
+            'audio_classifier': AUDIO_CLASSIFIER_AVAILABLE
+        },
+        'models': {},
+        'data_files': {}
+    }
+    
+    # Check model files
+    models_dir = 'models'
+    if os.path.exists(models_dir):
+        status['models']['directory_exists'] = True
+        status['models']['files'] = os.listdir(models_dir)
+    else:
+        status['models']['directory_exists'] = False
+        status['models']['error'] = 'Models directory not found'
+    
+    # Check data files
+    data_dir = 'data'
+    if os.path.exists(data_dir):
+        status['data_files']['directory_exists'] = True
+        status['data_files']['files'] = os.listdir(data_dir)
+    else:
+        status['data_files']['directory_exists'] = False
+    
+    # Check ML classifier details
+    if ML_CLASSIFIER_AVAILABLE:
+        try:
+            from ml_url_classifier import ml_classifier
+            status['ml_classifier_details'] = {
+                'model_loaded': ml_classifier.model_loaded,
+                'has_model': ml_classifier.model is not None,
+                'has_features': ml_classifier.feature_names is not None
+            }
+        except Exception as e:
+            status['ml_classifier_details'] = {'error': str(e)}
+    
+    # Check audio classifier details
+    if AUDIO_CLASSIFIER_AVAILABLE:
+        try:
+            from audio_fraud_classifier import audio_classifier
+            status['audio_classifier_details'] = {
+                'model_loaded': audio_classifier.model_loaded,
+                'has_model': audio_classifier.model is not None
+            }
+        except Exception as e:
+            status['audio_classifier_details'] = {'error': str(e)}
+    
+    return jsonify(status)
+
 @app.route('/admin')
 def admin_dashboard():
     """Admin dashboard - Smart routing: First time = Register, Logged in = Dashboard, Not logged in = Login"""
