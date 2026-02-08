@@ -324,6 +324,8 @@ This document contains:
 
 ### 1b. QR Code Scanning Flow (Traditional Flowchart)
 
+**Note**: *This traditional flowchart is provided for your convenience to understand the detailed step-by-step process.*
+
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │                    QR CODE SCANNING FLOW                            │
@@ -514,6 +516,8 @@ USER UPLOADS QR IMAGE
 ```
 
 ### 2b. Voice Fraud Detection Flow (Traditional Flowchart)
+
+**Note**: *This traditional flowchart is provided for your convenience to understand the detailed step-by-step process.*
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
