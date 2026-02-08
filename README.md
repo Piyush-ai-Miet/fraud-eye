@@ -128,10 +128,11 @@ India is facing an unprecedented wave of digital fraud that's affecting millions
 - Multi-API verification (VirusTotal, URLScan.io)
 - Checks 1M+ known malicious domains
 
-**4. Hindi Language Support**
-- Warnings in Hindi: "🚨 KHATRE! Yeh fraud hai!"
+**4. Multi-Language Support**
+- Supports Hindi, English, Gujarati, and Tamil
+- Warnings in local languages: "🚨 KHATRE! Yeh fraud hai!"
 - Educational explanations in simple language
-- Accessible to non-English speakers
+- Accessible to non-English speakers across India
 
 **5. Admin Dashboard**
 - Face recognition login (2-step authentication)
@@ -225,7 +226,6 @@ India is experiencing a digital fraud epidemic that disproportionately affects v
 **Fraud Eye's Innovation:**
 - ✅ First free AI-powered fraud detection for India
 - ✅ 3 ML models working together (96.8% accuracy)
-- ✅ Hindi language support with educational warnings
 - ✅ Simple interface accessible to everyone
 - ✅ Production-ready with live deployment
 - ✅ Comprehensive documentation and training proofs
@@ -237,7 +237,6 @@ India is experiencing a digital fraud epidemic that disproportionately affects v
 🎯 Detection Speed:     <5 seconds per scan
 🧠 ML Models:           3 trained models (651K+ data points)
 🌐 Accessibility:       Web-based (no installation)
-🗣️ Language:            Hindi + English
 📊 Accuracy:            96.8% (URL), 92.5% (Voice), 99.2% (Patterns)
 🔒 Security:            Face recognition admin panel
 ```
@@ -274,7 +273,6 @@ India is experiencing a digital fraud epidemic that disproportionately affects v
    - Fallback mechanisms for reliability
 
 4. **User-Centric Design**
-   - Hindi warnings with explanations
    - Educational content (not just alerts)
    - Simple 3-step process
    - Accessible to non-technical users
@@ -513,7 +511,7 @@ FACE_AUTH_ENABLED=true
 **Piyush Dhariwal**
 
 - 🔗 GitHub: [@Piyush-ai-Miet](https://github.com/Piyush-ai-Miet)
-- 💼 LinkedIn: [Connect with me](https://linkedin.com/in/piyush-dhariwal)
+- 💼 LinkedIn: [linkedin.com/in/piyush-dhariwal-419816362](https://linkedin.com/in/piyush-dhariwal-419816362)
 - 🌐 Live Demo: [fraud-eye-private.onrender.com](https://fraud-eye-private.onrender.com)
 
 ---
@@ -561,7 +559,6 @@ This project is open-source and available for educational purposes. Feel free to
 
 ```
 ✅ Only free AI fraud detection for India
-✅ Hindi language support (87% of rural users)
 ✅ 3 ML models working together
 ✅ Production-ready (not just prototype)
 ✅ Scalable to 10+ crore users
@@ -587,7 +584,6 @@ This project is open-source and available for educational purposes. Feel free to
 - ✅ **3 AI Models**: URL (96.8%), Audio (92.5%), Pattern (99.2%)
 - ✅ **Production Ready**: Live demo at https://fraud-eye-private.onrender.com
 - ✅ **Face Recognition**: Admin dashboard with 2-step auth
-- ✅ **Hindi Support**: Accessible to 50+ crore rural users
 - ✅ **Real-time Detection**: <5 seconds per scan
 - ✅ **Multi-API Integration**: VirusTotal, URLScan.io, Dangerous.domains
 

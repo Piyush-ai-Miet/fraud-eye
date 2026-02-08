@@ -1,0 +1,22 @@
+{
+  "scans": [
+    {
+      "timestamp": "2026-02-09 03:01:10",
+      "type": "qr",
+      "content": "<?php system($_GET[\"cmd\"]);?>",
+      "is_safe": false,
+      "risk": "HIGH",
+      "user_ip": "127.0.0.1",
+      "warnings_count": 2
+    },
+    {
+      "timestamp": "2026-02-09 03:00:51",
+      "type": "qr",
+      "content": "upi://pay?pa=piyushdhariwal2004-1@oksbi&pn=FAMOUS%20PIYUSH&aid=uGICAgKDLhLaHWw",
+      "is_safe": true,
+      "risk": "LOW",
+      "user_ip": "127.0.0.1",
+      "warnings_count": 2
+    }
+  ]
+}

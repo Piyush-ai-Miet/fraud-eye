@@ -21,7 +21,6 @@
 | **Audio Accuracy** | 92.5% (100 samples) |
 | **Pattern Detection** | 99.2% (3,955 patterns) |
 | **Response Time** | <5 seconds |
-| **Languages** | Hindi + English |
 | **Status** | Production Ready ✅ |
 
 ---
@@ -310,7 +309,7 @@ Result: Data theft, malware installation
 
 ### FR5: Multi-Language Support
 
-**Languages:** Hindi (Primary) + English (Secondary)
+**Languages:** Hindi, English, Gujarati, Tamil
 
 **Hindi Warnings:**
 - "🚨 KHATRE! Yeh fraud hai!"
@@ -319,7 +318,7 @@ Result: Data theft, malware installation
 - "Yeh audio AI/FAKE hai, mat suno!"
 
 **Educational Content:**
-- Safety tips in Hindi
+- Safety tips in multiple languages
 - Real fraud case studies
 - How to verify legitimacy
 
@@ -399,7 +398,6 @@ Result: Data theft, malware installation
 
 **User Interface:**
 - Simple, intuitive design
-- Hindi + English support
 - Mobile-responsive
 - Accessibility compliant
 
@@ -539,7 +537,7 @@ Result: Data theft, malware installation
 - Real-time call monitoring
 - SMS fraud detection
 - Push notifications
-- Regional languages (Tamil, Telugu, Bengali, Gujarati)
+- More regional languages (Marathi, Bengali, Kannada, Malayalam)
 
 ---
 
@@ -568,7 +566,6 @@ Result: Data theft, malware installation
 | **Production Deployment** | Live ✅ |
 | **Admin Dashboard** | Functional ✅ |
 | **Face Recognition** | Implemented ✅ |
-| **Hindi Support** | Complete ✅ |
 | **Documentation** | Comprehensive ✅ |
 
 ### Target Metrics (2027)
@@ -624,7 +621,6 @@ Result: Data theft, malware installation
 
 ✅ **3 trained AI models** (96.8% accuracy)  
 ✅ **Production-ready system** (live demo available)  
-✅ **Hindi language support** (87% of rural users)  
 ✅ **<5 second detection** (real-time protection)  
 ✅ **WhatsApp integration planned** (500M+ users)  
 ✅ **Complete documentation** (training proofs included)  

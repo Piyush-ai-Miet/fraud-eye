@@ -1,17 +1,23 @@
-# Sensitive Data - NEVER COMMIT
-whatsapp-qr-security-bot/data/admin_faces/
-whatsapp-qr-security-bot/data/admin_credentials.json
-whatsapp-qr-security-bot/data/admin_face_data.json
-whatsapp-qr-security-bot/data/admin_sessions.json
-whatsapp-qr-security-bot/data/unauthorized_attempts/
-whatsapp-qr-security-bot/data/scan_history.json
+# ============================================
+# SENSITIVE DATA - NEVER COMMIT
+# ============================================
+fraud-eye-app/data/admin_faces/
+fraud-eye-app/data/admin_credentials.json
+fraud-eye-app/data/admin_face_data.json
+fraud-eye-app/data/admin_sessions.json
+fraud-eye-app/data/unauthorized_attempts/
+fraud-eye-app/data/scan_history.json
 
-# Environment Variables
+# ============================================
+# ENVIRONMENT VARIABLES
+# ============================================
 .env
 *.env
 !.env.example
 
-# Python
+# ============================================
+# PYTHON
+# ============================================
 __pycache__/
 *.py[cod]
 *$py.class
@@ -21,28 +27,83 @@ venv/
 env/
 ENV/
 
-# Large Datasets (auto-download from Kaggle)
-whatsapp-qr-security-bot/data/kaggle_balanced_urls.csv
-whatsapp-qr-security-bot/data/kaggle_malicious_urls.csv
+# ============================================
+# LARGE DATASETS (auto-download from Kaggle)
+# ============================================
+fraud-eye-app/data/kaggle_balanced_urls.csv
+fraud-eye-app/data/kaggle_malicious_urls.csv
 
-# Audio Files (too large)
-whatsapp-qr-security-bot/data/audio/fake/*.wav
-whatsapp-qr-security-bot/data/audio/real/*.wav
-!whatsapp-qr-security-bot/data/audio/fake/Elevanlabs_Fake.wav
-!whatsapp-qr-security-bot/data/audio/real/real_audio.flac
+# ============================================
+# AUDIO FILES (too large - 200 augmented files)
+# ============================================
+fraud-eye-app/data/audio/fake/*.wav
+fraud-eye-app/data/audio/real/*.wav
+!fraud-eye-app/data/audio/fake/Elevanlabs_Fake.wav
+!fraud-eye-app/data/audio/real/real_audio.flac
 
-# IDE
+# ============================================
+# UNNECESSARY FILES - Development Notes
+# ============================================
+
+# Documentation Files (50+ files)
+fraud-eye-app/*.md
+!fraud-eye-app/README.md
+fraud-eye-app/*.txt
+
+# Test Files (30+ files)
+fraud-eye-app/test_*.py
+fraud-eye-app/test_*.html
+
+# Download Scripts (not needed for deployment)
+fraud-eye-app/download_*.py
+
+# Old/Duplicate Files
+fraud-eye-app/admin_credentials.py
+fraud-eye-app/bot.py
+fraud-eye-app/face_recognition_api.py
+fraud-eye-app/face_recognition_simple.py
+fraud-eye-app/third_party_url_checker.py
+fraud-eye-app/simple_qr_scanner.py
+fraud-eye-app/pytorch_audio_detector.py
+
+# Old Training Scripts (keep only main ones)
+fraud-eye-app/train_audio_fast.py
+fraud-eye-app/train_audio_simple.py
+fraud-eye-app/train_kaggle_audio.py
+fraud-eye-app/train_on_real_audio.py
+fraud-eye-app/retrain_with_upi.py
+
+# Analysis Scripts (not needed)
+fraud-eye-app/analyze_upi_fraud.py
+fraud-eye-app/upi_fraud_detector.py
+fraud-eye-app/qr_fraud_dataset.py
+fraud-eye-app/scam_news_scraper.py
+fraud-eye-app/generate_test_qr_codes.py
+fraud-eye-app/load_kaggle_to_database.py
+
+# Old Templates
+fraud-eye-app/templates/demo.html
+fraud-eye-app/templates/demo_full_backup.html
+fraud-eye-app/templates/demo_full_old.html
+
+# ============================================
+# IDE & SYSTEM FILES
+# ============================================
 .vscode/
 .idea/
 *.swp
 *.swo
 .DS_Store
 
-# Archives
+# ============================================
+# ARCHIVES
+# ============================================
 _archive/
 *.zip
 cleanup_script.sh
 fraud-eye.zip
 
-# Logs
+# ============================================
+# LOGS
+# ============================================
 *.log
