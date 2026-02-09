@@ -981,8 +981,12 @@ def register_admin():
     try:
         # Create admin credentials (only once)
         if angle == 'center':
-            from admin_credentials import create_admin
-            create_admin(username, password)
+            try:
+                from admin_credentials import create_admin
+                create_admin(username, password)
+            except ImportError:
+                # Public version doesn't support face registration
+                print("[ADMIN] Using public credentials - face registration not available")
         
         # Register face for this angle
         success, message = register_admin_face_multi(image_data, angle)

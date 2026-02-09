@@ -13,12 +13,16 @@ def verify_credentials(username, password):
     """
     Verify admin credentials
     In production, use environment variables or secure storage
+    Returns: (verified: bool, message: str)
     """
     # Check environment variables first
     admin_user = os.getenv('ADMIN_USERNAME', DEFAULT_USERNAME)
     admin_pass = os.getenv('ADMIN_PASSWORD', DEFAULT_PASSWORD)
     
-    return username == admin_user and password == admin_pass
+    if username == admin_user and password == admin_pass:
+        return True, 'Credentials verified'
+    else:
+        return False, 'Invalid username or password'
 
 def is_face_registered():
     """
