@@ -50,6 +50,7 @@ def decode_face_from_env(encoded_str):
 def register_face_to_env(image_data, angle='center'):
     """
     Register face by storing encoding in environment variable
+    AND save to .env file for persistence
     Angle: center, left, right, up
     """
     try:
@@ -62,11 +63,38 @@ def register_face_to_env(image_data, angle='center'):
         env_key = f'ADMIN_FACE_{angle.upper()}'
         os.environ[env_key] = encoded
         
-        print(f"[FACE] Registered face angle: {angle}")
-        print(f"[FACE] Set environment variable: {env_key}")
-        print(f"[FACE] Add this to Render: {env_key}={encoded[:50]}...")
+        # Save to .env file for persistence
+        env_file = '.env'
+        env_lines = []
+        key_exists = False
         
-        return True, f"Face angle '{angle}' registered successfully"
+        # Read existing .env file
+        if os.path.exists(env_file):
+            with open(env_file, 'r') as f:
+                env_lines = f.readlines()
+        
+        # Update or add the key
+        updated_lines = []
+        for line in env_lines:
+            if line.startswith(f'{env_key}='):
+                updated_lines.append(f'{env_key}={encoded}\n')
+                key_exists = True
+            else:
+                updated_lines.append(line)
+        
+        # Add new key if not exists
+        if not key_exists:
+            updated_lines.append(f'{env_key}={encoded}\n')
+        
+        # Write back to .env file
+        with open(env_file, 'w') as f:
+            f.writelines(updated_lines)
+        
+        print(f"[FACE] ✅ Registered face angle: {angle}")
+        print(f"[FACE] ✅ Saved to .env file: {env_key}")
+        print(f"[FACE] 📋 For Render, add: {env_key}={encoded[:50]}...")
+        
+        return True, f"Face angle '{angle}' registered and saved to .env"
         
     except Exception as e:
         return False, f"Registration failed: {str(e)}"
@@ -144,3 +172,45 @@ verify_face = verify_face_from_env
 is_face_registered = is_face_registered_env
 get_registration_status = get_registration_status_env
 mark_face_registered = mark_face_registered_env
+
+
+def get_render_env_vars():
+    """
+    Get all face environment variables for Render deployment
+    Returns: dict of env vars
+    """
+    env_vars = {}
+    angles = ['CENTER', 'LEFT', 'RIGHT', 'UP']
+    
+    for angle in angles:
+        env_key = f'ADMIN_FACE_{angle}'
+        value = os.getenv(env_key)
+        if value:
+            env_vars[env_key] = value
+    
+    return env_vars
+
+def print_render_instructions():
+    """
+    Print instructions for adding face data to Render
+    """
+    env_vars = get_render_env_vars()
+    
+    if not env_vars:
+        print("\n⚠️ No face data registered yet")
+        return
+    
+    print("\n" + "="*70)
+    print("📋 RENDER ENVIRONMENT VARIABLES")
+    print("="*70)
+    print("\nCopy these to Render Dashboard → Environment:")
+    print()
+    
+    for key, value in env_vars.items():
+        print(f"Variable Name: {key}")
+        print(f"Value: {value}")
+        print()
+    
+    print("="*70)
+    print("✅ After adding these, your face auth will work on Render!")
+    print("="*70 + "\n")

@@ -1042,6 +1042,36 @@ def get_admin_registration_status():
         'all_registered': all(status.values()) if status else False
     })
 
+@app.route('/api/admin/render-env-vars', methods=['GET'])
+def get_render_env_vars_api():
+    """Get environment variables for Render deployment"""
+    if not TWO_STEP_AUTH_AVAILABLE or not FACE_REGISTRATION_AVAILABLE:
+        return jsonify({'error': 'Face auth not available'}), 500
+    
+    try:
+        from face_auth_env import get_render_env_vars
+        env_vars = get_render_env_vars()
+        
+        if not env_vars:
+            return jsonify({
+                'message': 'No face data registered yet',
+                'env_vars': {}
+            })
+        
+        return jsonify({
+            'message': 'Copy these to Render Dashboard → Environment',
+            'env_vars': env_vars,
+            'instructions': [
+                '1. Go to Render Dashboard',
+                '2. Select your service',
+                '3. Go to Environment tab',
+                '4. Add each variable below',
+                '5. Save and redeploy'
+            ]
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/admin/verify-credentials', methods=['POST'])
 def verify_admin_credentials():
     """Step 1: Verify username and password"""
