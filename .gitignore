@@ -30,7 +30,8 @@ ENV/
 # ============================================
 # LARGE DATASETS (auto-download from Kaggle)
 # ============================================
-fraud-eye-app/data/kaggle_balanced_urls.csv
+# Keep kaggle_balanced_urls.csv (275KB) for deployment
+# fraud-eye-app/data/kaggle_balanced_urls.csv
 fraud-eye-app/data/kaggle_malicious_urls.csv
 
 # ============================================

@@ -26,13 +26,15 @@ class MaliciousPatternDetector:
     
     def load_patterns(self):
         """Load attack patterns from dataset"""
-        # Try multiple possible paths
+        # Try multiple possible paths (prioritize non-archive paths for deployment)
         possible_paths = [
-            '_archive/qr-dataset/words/',
-            '../_archive/qr-dataset/words/',
             'qr-dataset/words/',
+            'fraud-eye-app/qr-dataset/words/',
             '../qr-dataset/words/',
-            './qr-dataset/words/'
+            './qr-dataset/words/',
+            '_archive/qr-dataset/words/',
+            'fraud-eye-app/_archive/qr-dataset/words/',
+            '../_archive/qr-dataset/words/'
         ]
         
         dataset_path = None
@@ -71,7 +73,7 @@ class MaliciousPatternDetector:
     def load_custom_datasets(self):
         """Load custom datasets with flexible paths"""
         # Try multiple possible paths
-        possible_data_paths = ['data/', './data/', '../data/']
+        possible_data_paths = ['data/', 'fraud-eye-app/data/', './data/', '../data/']
         
         # Load phishing keywords
         for base_path in possible_data_paths:
@@ -103,7 +105,7 @@ class MaliciousPatternDetector:
     
     def load_kaggle_database(self):
         """Load Kaggle balanced dataset (3,955 URLs)"""
-        possible_data_paths = ['data/', './data/', '../data/']
+        possible_data_paths = ['data/', 'fraud-eye-app/data/', './data/', '../data/']
         
         for base_path in possible_data_paths:
             try:
