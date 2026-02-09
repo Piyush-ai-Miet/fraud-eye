@@ -102,12 +102,13 @@ def register_face_to_env(image_data, angle='center'):
 def verify_face_from_env(image_data):
     """
     Verify face against stored encodings in environment variables
+    Returns: (verified, message, similarity)
     """
     try:
         # Encode current face
         current_encoded = encode_face_to_env(image_data)
         if not current_encoded:
-            return False, "Failed to encode face"
+            return False, "Failed to encode face", 0.0
         
         current_face = decode_face_from_env(current_encoded)
         
@@ -135,12 +136,12 @@ def verify_face_from_env(image_data):
         
         # Threshold: 0.7 = 70% match required
         if best_match > 0.7:
-            return True, f"Face verified (confidence: {best_match*100:.1f}%)"
+            return True, f"Face verified (confidence: {best_match*100:.1f}%)", best_match * 100
         else:
-            return False, f"Face not recognized (confidence: {best_match*100:.1f}%)"
+            return False, f"Face not recognized (confidence: {best_match*100:.1f}%)", best_match * 100
             
     except Exception as e:
-        return False, f"Verification failed: {str(e)}"
+        return False, f"Verification failed: {str(e)}", 0.0
 
 def is_face_registered_env():
     """
