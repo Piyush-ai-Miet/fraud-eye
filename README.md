@@ -183,16 +183,19 @@ STEP 1: Upload                STEP 2: AI Analysis           STEP 3: Result
 ## 📸 Screenshots
 
 ### Homepage
+<img width="1353" height="665" alt="Screenshot 2026-02-09 at 9 42 08 PM" src="https://github.com/user-attachments/assets/857d774d-39f0-4ef9-88ba-8d765852a77c" />
 
-### QR Code Scanner
+### Voice Fraud Detector suspecious 
+<img width="642" height="522" alt="Screenshot 2026-02-09 at 9 43 51 PM" src="https://github.com/user-attachments/assets/ccbae16d-9020-4438-ad1b-b533fe3ad80e" />
 
-### Voice Fraud Detector
-
-### URL Safety Checker
+### Admin Portal
+<img width="685" height="414" alt="Screenshot 2026-02-09 at 9 59 55 PM" src="https://github.com/user-attachments/assets/83f1af67-99d7-4457-8cc1-f71392f7acbd" />
 
 ### Admin Dashboard
+<img width="1215" height="601" alt="Screenshot 2026-02-09 at 9 57 12 PM" src="https://github.com/user-attachments/assets/1c5f577d-b757-4908-a844-cf53340d411a" />
 
 ### Warning Messages (Hindi)
+<img width="508" height="479" alt="Screenshot 2026-02-09 at 9 56 33 PM" src="https://github.com/user-attachments/assets/dd0a7a06-cd13-4338-bb36-9f5e25ef4a19" />
 
 ---
 
