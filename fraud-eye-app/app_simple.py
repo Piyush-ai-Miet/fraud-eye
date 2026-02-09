@@ -5,6 +5,16 @@ from urllib.parse import urlparse
 import os
 import tempfile
 
+# Load environment variables from .env file
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+    print("✅ Environment variables loaded from .env")
+except ImportError:
+    print("⚠️ python-dotenv not installed, using system environment variables")
+except Exception as e:
+    print(f"⚠️ Could not load .env file: {e}")
+
 # Scan logger for admin dashboard
 try:
     from scan_logger import log_scan, get_scan_history, get_scan_stats
@@ -23,12 +33,19 @@ except Exception as e:
 
 # 2-Step Authentication
 try:
+    # Try to import from admin_credentials (local/private)
     from admin_credentials import verify_credentials, is_face_registered, mark_face_registered
     from face_recognition_simple import register_admin_face_multi, verify_face as verify_face_opencv, get_registration_status
     TWO_STEP_AUTH_AVAILABLE = True
 except Exception as e:
-    TWO_STEP_AUTH_AVAILABLE = False
-    print(f"2-step auth not available: {e}")
+    # Fallback to public version (for deployment)
+    try:
+        from admin_credentials_public import verify_credentials, is_face_registered, mark_face_registered
+        TWO_STEP_AUTH_AVAILABLE = True
+        print(f"⚠️ Using public admin credentials (set ADMIN_USERNAME and ADMIN_PASSWORD env vars)")
+    except Exception as e2:
+        TWO_STEP_AUTH_AVAILABLE = False
+        print(f"2-step auth not available: {e}")
 
 # QR code scanning imports
 try:
