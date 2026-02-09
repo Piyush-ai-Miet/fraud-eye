@@ -922,8 +922,8 @@ def system_status():
 def admin_dashboard():
     """Admin dashboard - Smart routing: First time = Register, Logged in = Dashboard, Not logged in = Login"""
     
-    # CASE 1: First time setup - No face registered yet
-    if TWO_STEP_AUTH_AVAILABLE and not is_face_registered():
+    # CASE 1: First time setup - No face registered yet (only if face registration available)
+    if TWO_STEP_AUTH_AVAILABLE and FACE_REGISTRATION_AVAILABLE and not is_face_registered():
         print("[ADMIN] First time - showing registration page")
         return render_template('admin_register.html')
     
@@ -944,8 +944,8 @@ def admin_login_2step():
     """2-Step authentication login page"""
     print("[LOGIN] Loading 2-step login page")
     
-    # If not registered yet, redirect to /admin (which will show registration)
-    if TWO_STEP_AUTH_AVAILABLE and not is_face_registered():
+    # If not registered yet AND face registration available, redirect to /admin
+    if TWO_STEP_AUTH_AVAILABLE and FACE_REGISTRATION_AVAILABLE and not is_face_registered():
         print("[LOGIN] Admin not registered - redirecting to /admin")
         return redirect('/admin')
     
