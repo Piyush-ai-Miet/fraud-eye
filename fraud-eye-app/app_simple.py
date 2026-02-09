@@ -38,24 +38,23 @@ try:
     from face_recognition_simple import register_admin_face_multi, verify_face as verify_face_opencv, get_registration_status
     TWO_STEP_AUTH_AVAILABLE = True
     FACE_REGISTRATION_AVAILABLE = True
+    print("✅ Using local face recognition (file-based)")
 except Exception as e:
-    # Fallback to public version (for deployment)
+    # Fallback to environment-based face auth (for deployment)
     try:
-        from admin_credentials_public import verify_credentials, is_face_registered, mark_face_registered
+        from admin_credentials_public import verify_credentials
+        from face_auth_env import (
+            register_admin_face_multi, 
+            verify_face as verify_face_opencv, 
+            get_registration_status,
+            is_face_registered,
+            mark_face_registered
+        )
         TWO_STEP_AUTH_AVAILABLE = True
-        FACE_REGISTRATION_AVAILABLE = False  # Face registration not available in public deployment
-        print(f"⚠️ Using public admin credentials (username/password only)")
-        print(f"⚠️ Set ADMIN_USERNAME and ADMIN_PASSWORD environment variables")
-        
-        # Dummy functions for face registration (not available)
-        def register_admin_face_multi(image_data, angle):
-            return False, "Face registration not available in public deployment"
-        
-        def verify_face_opencv(image_data):
-            return False, "Face verification not available in public deployment"
-        
-        def get_registration_status():
-            return {'center': False, 'left': False, 'right': False, 'up': False}
+        FACE_REGISTRATION_AVAILABLE = True
+        print("✅ Using environment-based face recognition (GitHub safe)")
+        print("⚠️ Set ADMIN_USERNAME and ADMIN_PASSWORD environment variables")
+        print("⚠️ Face encodings will be stored in environment variables")
             
     except Exception as e2:
         TWO_STEP_AUTH_AVAILABLE = False
