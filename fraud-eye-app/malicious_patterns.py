@@ -28,8 +28,10 @@ class MaliciousPatternDetector:
         """Load attack patterns from dataset"""
         # Try multiple possible paths
         possible_paths = [
-            '../qr-dataset/words/',
+            '_archive/qr-dataset/words/',
+            '../_archive/qr-dataset/words/',
             'qr-dataset/words/',
+            '../qr-dataset/words/',
             './qr-dataset/words/'
         ]
         
@@ -40,8 +42,10 @@ class MaliciousPatternDetector:
                 break
         
         if not dataset_path:
-            print("[PATTERN] QR dataset not found")
+            print("[PATTERN] ❌ QR dataset not found")
             return
+        
+        print(f"[PATTERN] ✅ Found QR dataset at: {dataset_path}")
         
         pattern_files = {
             'sqli': 'sqli.txt',
@@ -59,9 +63,9 @@ class MaliciousPatternDetector:
                     patterns = [line.strip() for line in f if line.strip()]
                     # Load ALL patterns, not just 50
                     self.patterns[attack_type] = patterns
-                    print(f"[PATTERN] Loaded {len(patterns)} {attack_type} patterns")
+                    print(f"[PATTERN] ✅ Loaded {len(patterns)} {attack_type} patterns")
             except Exception as e:
-                print(f"[PATTERN] Could not load {attack_type}: {e}")
+                print(f"[PATTERN] ❌ Could not load {attack_type}: {e}")
                 pass
     
     def load_custom_datasets(self):
